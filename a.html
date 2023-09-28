@@ -9,16 +9,40 @@
 <body>
     <h1>WebSocket Example</h1>
 
+    <p>ini adalah contoh</p>
+
+
+    <div id="saldo"></div>
+    <div id="DataWaktu"></div>
+
+
+
     <div id="error"></div>
     <div id="message"></div>
 
     <input type="text" id="input-message" placeholder="Type your message here" disabled>
+
+    <button id="getsaldo">Start</button> 
+    <button id="waktu">Stop</button>
 
     <button id="connect-button">Connect</button>
     <button id="disconnect-button" disabled>Disconnect</button>
     <button id="send-button" disabled>Send Message</button>
 
     <script>
+
+        // ambil Data Waktu
+        const waktu = document.getElementById('waktu');
+
+        waktu.addEventListener("click", () => {
+            // kirim pesan
+            const message = {
+                token: '123',
+                type: 'waktu',
+            };
+            socket.send(JSON.stringify(message));
+        });
+
         let socket;
 
         // Handle connect button click event
@@ -50,9 +74,19 @@
 
             // Handle incoming messages from the server
             socket.addEventListener('message', (event) => {
-                const messageDiv = document.getElementById('message');
-                messageDiv.textContent = event.data;
+                // json parse
+                const data = JSON.parse(event.data);
+                // cek type
+                if (data.type == 'saldo') {
+                    const saldo = document.getElementById('saldo');
+                    saldo.textContent = data.data;
+                } else {
+                    // tampilkan pesan
+                    const messageDiv = document.getElementById('message');
+                    messageDiv.textContent = data.data;
+                }
             });
+
 
             // Handle WebSocket close event
             socket.addEventListener('close', () => {
@@ -76,6 +110,7 @@
         const sendButton = document.getElementById('send-button');
         sendButton.addEventListener('click', () => {
             const message = {
+                token: '123456',
                 type: 'update',
                 content: inputMessage.value
             };
@@ -84,6 +119,19 @@
             inputMessage.value = '';
             sendButton.disabled = true;
         });
+
+        // get saldo
+        const getsaldo = document.getElementById('getsaldo');
+        // click
+        getsaldo.addEventListener("click", () => {
+            // kirim pesan
+            const message = {
+                token: '123',
+                type: 'getsaldo',
+            };
+            socket.send(JSON.stringify(message));
+        })
+
 
         // Handle input message event
         const inputMessage = document.getElementById('input-message');

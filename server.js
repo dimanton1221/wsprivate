@@ -15,28 +15,64 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/a.html');
 });
 
+class Loop {
+    constructor(ws) {
+        this.ws = ws;
+        this.intervalId = null;
+    }
+
+    start() {
+        this.intervalId = setInterval(() => {
+            const randomNum = Math.floor(Math.random() * 10000) + 1;
+            console.log(randomNum);
+            console.log('Loop is running...');
+            this.ws.send(JSON.stringify({
+                "type": 'saldo',
+                "data": randomNum
+            }));
+        }, 500);
+
+    }
+
+    stop() {
+        clearInterval(this.intervalId);
+        this.intervalId = null;
+        console.log('Loop is stopped');
+    }
+}
+
 // WebSocket connection handling
 wss.on('connection', (ws) => {
     console.log('Client connected');
-
-    // Send a message to the client every 3 seconds
-    const interval = setInterval(() => {
-        ws.send('Message from server: ' + new Date() + ' ' + ws._socket._handle.fd);
-    }, 0);
-
-    // Handle incoming messages from the client
+    let loop = null;
     ws.on('message', (message) => {
+
+        let data = JSON.parse(message);
         console.log(`Received: ${message}`);
+
+        if (data.type == 'getsaldo') {
+            loop = new Loop(ws);
+            loop.start();
+        }
+
+        if (data.type == 'waktu') {
+            // console.log('kenapa kok eror');
+            if (loop) {
+                loop.stop();
+            }
+        }
     });
 
     // Handle WebSocket close event
     ws.on('close', () => {
         console.log('Client disconnected');
-        clearInterval(interval);
+        if (loop) {
+            loop.stop();
+        }
     });
 
     // Send message to specific client
-    ws.send('Hello client with id ' + ws._socket._handle.fd);
+    // ws.send('Hello client with id ' + ws._socket._handle.fd);
 });
 
 // Start the server
