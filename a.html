@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Example</title>
+</head>
+
+<body>
+    <h1>WebSocket Example</h1>
+
+    <div id="error"></div>
+    <div id="message"></div>
+
+    <input type="text" id="input-message" placeholder="Type your message here" disabled>
+
+    <button id="connect-button">Connect</button>
+    <button id="disconnect-button" disabled>Disconnect</button>
+    <button id="send-button" disabled>Send Message</button>
+
+    <script>
+        let socket;
+
+        // Handle connect button click event
+        const connectButton = document.getElementById('connect-button');
+        connectButton.addEventListener('click', () => {
+            socket = new WebSocket(`ws://${window.location.host}`);
+
+            // Handle WebSocket open event
+            socket.addEventListener('open', () => {
+                console.log('Connected to server');
+                connectButton.disabled = true;
+                disconnectButton.disabled = false;
+                sendButton.disabled = true;
+                inputMessage.disabled = false;
+            });
+
+            // Handle WebSocket error event
+            socket.addEventListener('error', (event) => {
+                console.error('WebSocket error:', event);
+                const errorDiv = document.getElementById('error');
+                errorDiv.textContent = 'Failed to connect to server';
+                const messageDiv = document.getElementById('message');
+                messageDiv.textContent = '';
+                connectButton.disabled = false;
+                disconnectButton.disabled = true;
+                sendButton.disabled = true;
+                inputMessage.disabled = true;
+            });
+
+            // Handle incoming messages from the server
+            socket.addEventListener('message', (event) => {
+                const messageDiv = document.getElementById('message');
+                messageDiv.textContent = event.data;
+            });
+
+            // Handle WebSocket close event
+            socket.addEventListener('close', () => {
+                console.log('Disconnected from server');
+                connectButton.disabled = false;
+                disconnectButton.disabled = true;
+                sendButton.disabled = true;
+                inputMessage.disabled = true;
+                const messageDiv = document.getElementById('message');
+                messageDiv.textContent = 'Connection closed';
+            });
+        });
+
+        // Handle disconnect button click event
+        const disconnectButton = document.getElementById('disconnect-button');
+        disconnectButton.addEventListener('click', () => {
+            socket.close();
+        });
+
+        // Handle send button click event
+        const sendButton = document.getElementById('send-button');
+        sendButton.addEventListener('click', () => {
+            const message = {
+                type: 'update',
+                content: inputMessage.value
+            };
+            const messageString = JSON.stringify(message);
+            socket.send(messageString);
+            inputMessage.value = '';
+            sendButton.disabled = true;
+        });
+
+        // Handle input message event
+        const inputMessage = document.getElementById('input-message');
+        inputMessage.addEventListener('input', () => {
+            sendButton.disabled = inputMessage.value === '' || socket.readyState !== WebSocket.OPEN;
+        });
+
+        // Disable send button and input by default
+        sendButton.disabled = true;
+        inputMessage.disabled = true;
+    </script>
+</body>
+
+</html>

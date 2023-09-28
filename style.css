@@ -1,0 +1,56 @@
+.navbar-text-white {
+    color: #ffffff;
+}
+
+body {
+    background-color: #D3D3D3; 
+}
+
+@media (max-width: 768px) {
+    body {
+      font-size: 0.8em;
+    }
+  }
+
+/* Tambahkan class "sticky-header" pada elemen <thead> tabel */
+.sticky-header {
+    position: sticky;
+    top: 0;
+    background-color: #fff; /* Ganti dengan warna latar belakang yang sesuai */
+    z-index: 1; /* Atur indeks z untuk menempatkannya di atas konten tabel */
+  }
+  
+  /* Setel z-index konten tabel agar tetap berada di bawah header yang melekat */
+  .table-bordered {
+    position: relative;
+    z-index: 0;
+  }
+
+  .inputt {
+    width: 60%; /* Menetapkan lebar input menjadi 100% dari kolom parentnya */
+  }
+
+  .inputs {
+    width: 60%; /* Menetapkan lebar input menjadi 100% dari kolom parentnya */
+  }
+
+  .contain {
+    border: 1px solid black; /* Menambahkan border pada elemen yang mengelilingi div */
+    border-radius: 6px; /* Menambahkan radius pada tepi luar div */
+    overflow: hidden; /* Menghilangkan overflow agar border tidak muncul di dalam div */
+    margin-right: 7px;
+    margin-bottom: 4px;
+  }
+  .col-5 .contain:first-child {
+    margin-top: 8px; /* Tambahkan margin top hanya pada elemen pertama */
+  }
+
+  .contain > div {
+    padding: 2px;
+    text-align: center; /* Mengatur teks menjadi di tengah */
+  }
+
+  select.form-select {
+    width: 100%;
+  }
+

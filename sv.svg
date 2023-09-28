@@ -1,0 +1,20 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 197" width="1500" height="197">
+	<title>template</title>
+	<style>
+		tspan { white-space:pre } 
+		.s0 { fill: #049cbb } 
+		.s1 { fill: #ffffff } 
+		.t2 { font-size: 47px;fill: #ffffff;font-weight: 400;font-family: "PTRootUI-Regular", "PT Root UI" } 
+		.t3 { font-size: 118px;fill: #ffffff;font-weight: 400;font-family: "PTRootUI-Regular", "PT Root UI" } 
+	</style>
+	<path id="Background" class="s0" d="m0-152h1500v500h-1500z"/>
+	<path id="Bar" class="s1" d="m1451.2 3.6h17.6v188.8h-17.6z"/>
+	<text id="Before you go go." style="transform: matrix(1,0,0,1,1420.667,173.52)" >
+		<tspan x="-364.3" y="0" class="t2">Before you go go.
+</tspan>
+	</text>
+	<text id="Wake Me Up!" style="transform: matrix(1,0,0,1,1420.667,102.72)" >
+		<tspan x="-691.5" y="0" class="t3">Wake Me Up!
+</tspan>
+	</text>
+</svg>

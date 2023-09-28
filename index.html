@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bootstrap demo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div>
+    <img src="banner.svg" alt="Logo" style="width: 100%" />
+  </div>
+
+  <nav class="navbar navbar-text-white" style="background-color: #0b579e">
+    <div class="container-fluid">&nbsp; Hi, Users</div>
+  </nav>
+
+  <div class="row flex-wrap g-2">
+    <div class="col-7 flex-column">
+      <div style="max-height: 500px; overflow-y: auto">
+        <table id="ResultData" class="table table-bordered" style="text-align: center">
+          <thead class="sticky-header">
+            <tr class="table-secondary">
+              <th scope="col">TRADE</th>
+              <th scope="col">PROFIT</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table-danger">
+              <td>0.9887888756</td>
+              <td>0.9887888756</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-5 flex-column">
+      <div class="div-container contain">
+        <div style="text-align: center">
+          <!-- Menambahkan class text-center untuk mengatur teks ke tengah -->
+          <select class="form-select" aria-label="Default select example">
+            <option selected>Doge</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+        </div>
+        <div><b>COIN</b></div>
+      </div>
+      <div class="div-container contain">
+        <div class="d-flex">
+          <input class="form-control form-control-sm mx-1 text-center" type="text" placeholder="0"
+            aria-label=".form-control-sm example" />
+          <input class="form-control form-control-sm mx-1 text-center" type="text" placeholder="0"
+            aria-label=".form-control-sm example" />
+        </div>
+        <div><b>CHANGE</b></div>
+      </div>
+      <div class="div-container contain">
+        <div class="d-flex">
+          <input class="form-control form-control-sm mx-1 text-center" type="text" placeholder="0"
+            aria-label=".form-control-sm example" />
+        </div>
+        <div><b>BOOM</b></div>
+      </div>
+      <div class="div-container contain">
+        <div class="d-flex">
+          <input class="form-control form-control-sm mx-1 text-center" type="text" placeholder="0"
+            aria-label=".form-control-sm example" />
+        </div>
+        <div><b>SHOOT</b></div>
+      </div>
+      <div class="div-container contain">
+        <div class="d-flex">
+          <input class="form-control form-control-sm mx-1 text-center" type="text" placeholder="0"
+            aria-label=".form-control-sm example" />
+        </div>
+        <div><b>DELAY</b></div>
+      </div>
+      <div class="div-container contain">
+        <div class="d-flex">
+          <input class="form-control form-control-sm mx-1 text-center" type="text" placeholder="0"
+            aria-label=".form-control-sm example" />
+        </div>
+        <div><b>BASE TRADE</b></div>
+      </div>
+      <div class="div-container contain d-grid gap-2">
+        <button type="button" class="btn btn-secondary m-1"
+          onclick="AddDataTable(Math.floor(Math.random() * 10), Math.floor(Math.random() * 10), Math.floor(Math.random() * 2))">START</button>
+      </div>
+      <div class="div-container contain d-grid gap-2">
+        <button type="button" class="btn btn-secondary m-1">
+          STOP on WIN
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <hr style="
+        border-top: 4px solid #053c6f;
+        margin-top: 8px;
+        margin-bottom: 8px;
+        height: 4px;
+      " />
+  <div class="row flex-wrap mb-2">
+    <div class="col-12 d-flex justify-content-center">
+      <button type="button" class="btn btn-secondary w-100 m-1">SHOOT</button>
+      <button type="button" class="btn btn-secondary w-100 m-1">RESET</button>
+      <button type="button" class="btn btn-secondary w-100 m-1">BOOM</button>
+    </div>
+  </div>
+
+  <div class="row flex-wrap">
+    <div class="col-12 d-flex justify-content-center" style="text-align: center">
+      <table class="table">
+        <tbody>
+          <tr class="table-primary">
+            <th colspan="5" style="text-align: center">TRADE STATUS</th>
+          </tr>
+          <tr class="table-secondary">
+            <td style="width: 100px">Balance</td>
+            <td>Win</td>
+            <td>Lose</td>
+            <td>Roll</td>
+            <td>Profit Global</td>
+          </tr>
+          <tr>
+            <td class="table-primary" style="width: 100px">2.0000000</td>
+            <td class="table-success">0</td>
+            <td class="table-danger">0</td>
+            <td class="table-primary">0</td>
+            <td class="table-info">0.000000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row flex-wrap">
+    <div class="col-12 d-flex justify-content-center">
+      <button type="button" class="btn btn-secondary w-100 m-1">
+        WITHDRAW
+      </button>
+      <button type="button" class="btn btn-secondary w-100 m-1">
+        DEPOSIT
+      </button>
+    </div>
+  </div>
+  <div class="row flex-wrap">
+    <div class="col-12 d-flex justify-content-center">
+      <button type="button" class="btn btn-secondary w-100 m-1">
+        SEND COIN
+      </button>
+      <button type="button" class="btn btn-secondary w-100 m-1">
+        YOUTUBE
+      </button>
+    </div>
+  </div>
+
+  <div class="row mt-2 flex-wrap">
+    <div class="col-6">
+      <div class="d-flex justify-content-center align-items-center mx-2">
+        PROFIT GLOBAL
+        <input class="form-control form-control-sm mx-2 text-center" type="text" placeholder="0"
+          aria-label=".form-control-sm example" />
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="d-flex justify-content-center align-items-center mx-2">
+        PROFIT SESSION
+        <input class="form-control form-control-sm mx-2 text-center" type="text" placeholder="0"
+          aria-label=".form-control-sm example" />
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4 flex-wrap">
+    <div class="col-6 p-0">
+      <div class="d-flex justify-content-center align-items-center bg-success text-white">
+        TRADE WIN
+      </div>
+    </div>
+    <div class="col-6 p-0">
+      <div class="d-flex justify-content-center align-items-center bg-danger text-white">
+        TRADE LOSE
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-2 mx-4 flex-wrap">
+    <table>
+      <tr>
+        <td>MARTI WIN</td>
+        <td>
+          <input class="form-control inputt form-control-sm mx-1" type="text" placeholder="0%"
+            aria-label=".form-control-sm example" />
+        </td>
+        <td class="text-end">MARTI LOSE</td>
+        <td class="text-end">
+          <input class="form-control inputt form-control-sm mx-1" type="text" placeholder="0%"
+            aria-label=".form-control-sm example" />
+        </td>
+      </tr>
+      <tr>
+        <td>RESET MARTI IF WIN</td>
+        <td>
+          <input class="form-control inputt form-control-sm mx-1" type="text" placeholder="0"
+            aria-label=".form-control-sm example" />
+        </td>
+        <td class="text-end">RESET MARTI IF LOSE</td>
+        <td class="text-end">
+          <input class="form-control inputt form-control-sm mx-1" type="text" placeholder="0"
+            aria-label=".form-control-sm example" />
+        </td>
+      </tr>
+      <tr>
+        <td>RESET WIN TRADE</td>
+        <td>
+          <input class="form-control inputt form-control-sm mx-1" type="text" placeholder="0"
+            aria-label=".form-control-sm example" />
+        </td>
+        <td class="text-end">RESET TRADE AFTER LOSE</td>
+        <td class="text-end">
+          <input class="form-control inputt form-control-sm mx-1" type="text" placeholder="0"
+            aria-label=".form-control-sm example" />
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="row mt-4 flex-wrap">
+    <div class="col-6 p-0">
+      <div class="d-flex justify-content-center align-items-center bg-success text-white">
+        WIN AUTO BOOM
+      </div>
+    </div>
+    <div class="col-6 p-0">
+      <div class="d-flex justify-content-center align-items-center bg-danger text-white">
+        LOSE AUTO BOOM
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-2 mx-4 flex-wrap">
+    <table>
+      <tr>
+        <td>IF WIN</td>
+        <td>
+          <input class="form-control inputt form-control-sm mx-1" type="text" placeholder="0"
+            aria-label=".form-control-sm example" />
+        </td>
+        <td class="text-end">IF LOSE</td>
+        <td class="text-end">
+          <input class="form-control inputt form-control-sm mx-1" type="text" placeholder="0"
+            aria-label=".form-control-sm example" />
+        </td>
+      </tr>
+      <tr>
+        <td>AUTO BOOM</td>
+        <td>
+          <input class="form-control inputt form-control-sm mx-1" type="text" placeholder="0"
+            aria-label=".form-control-sm example" />
+        </td>
+        <td class="text-end">AUTO BOOM</td>
+        <td class="text-end">
+          <input class="form-control inputt form-control-sm mx-1" type="text" placeholder="0"
+            aria-label=".form-control-sm example" />
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="row mt-3 flex-wrap">
+    <div class="col-12 p-0">
+      <div class="d-flex justify-content-center align-items-center" style="background-color: #cfe2ff; color: black">
+        CHANGE TRADE HIGHT / LOW
+      </div>
+    </div>
+  </div>
+  <div class="row m-2 flex-wrap g-0">
+    <div class="col-6 d-flex align-items-center">
+      <label for="logicSelect" class="mr-2">LOGIC: </label>
+      <select id="logicSelect" class="form-select inputt" aria-label="Default select example">
+        <option selected>Hight</option>
+        <option value="1">Hight</option>
+        <option value="2">Low</option>
+      </select>
+      &nbsp;&nbsp;
+    </div>
+    <div class="col-3 d-flex align-items-center">
+      <label for="ifWinInput" class="mr-2">IF WIN</label>
+      <input id="ifWinInput" class="form-control form-control-sm" type="text" placeholder="0"
+        aria-label=".form-control-sm example" />
+      &nbsp;&nbsp;
+    </div>
+    <div class="col-3 d-flex align-items-center">
+      <label for="ifLoseInput" class="mr-2">IF LOSE</label>
+      <input id="ifLoseInput" class="form-control form-control-sm" type="text" placeholder="0"
+        aria-label=".form-control-sm example" />
+    </div>
+  </div>
+  <nav class="navbar navbar-text-white" style="background-color: #0b579e">
+    <div class="container-fluid align-items-center">
+      <button type="button" class="btn btn-info" style="line-height: normal">
+        REFRESH
+      </button>
+      <button type="button" class="btn btn-danger" style="line-height: normal">
+        LOGOUT
+      </button>
+    </div>
+  </nav>
+  <script>
+    // Mengatur lebar kolom tabel agar sesuai dengan lebar kolom header yang melekat
+    function setColumnWidths() {
+      const headerColumns = document.querySelectorAll(".sticky-header th");
+      const dataColumns = document.querySelectorAll(
+        ".table-bordered tbody tr:first-child td"
+      );
+
+      headerColumns.forEach((headerCol, index) => {
+        const width = window.getComputedStyle(dataColumns[index]).width;
+        headerCol.style.width = width;
+      });
+    }
+
+    // Panggil fungsi setColumnWidths saat halaman dimuat
+    window.addEventListener("load", setColumnWidths);
+
+    // Panggil fungsi setColumnWidths saat halaman diubah ukurannya
+    window.addEventListener("resize", setColumnWidths);
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+  <script>
+    function AddDataTable(trade, profit) {
+      const tableBody = document.querySelector("#ResultData tbody");
+
+      const newRow = document.createElement("tr");
+
+      const tradeCell = document.createElement("td");
+      tradeCell.textContent = trade;
+      newRow.appendChild(tradeCell);
+
+      const profitCell = document.createElement("td");
+      profitCell.textContent = profit;
+      newRow.appendChild(profitCell);
+
+      if (profit > 0) {
+        newRow.classList.add("table-success");
+      } else {
+        newRow.classList.add("table-danger");
+      }
+
+      // Get the first row in the table body
+      const firstRow = tableBody.firstChild;
+
+      // Insert the new row before the first row
+      tableBody.insertBefore(newRow, firstRow);
+    }
+
+
+
+    function connectWebSocket() {
+      const socket = new WebSocket('wss://example.com/socket');
+
+      socket.addEventListener('open', (event) => {
+        console.log('WebSocket connection established');
+      });
+
+      socket.addEventListener('message', (event) => {
+        console.log(`Received message: ${event.data}`);
+      });
+
+      socket.addEventListener('close', (event) => {
+        console.log('WebSocket connection closed');
+      });
+
+      socket.addEventListener('error', (event) => {
+        console.error('WebSocket error:', event);
+      });
+
+      return socket;
+    }
+  </script>
+</body>
+
+</html>
