@@ -12,7 +12,16 @@ const wss = new WebSocket.Server({ server });
 
 // Serve static HTML file
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/a.html');
+    res.sendFile(`${__dirname}/index.html`);
+});
+
+app.get('/style.css', (req, res) => {
+    res.set('Content-Type', 'text/css');
+    res.sendFile(`${__dirname}/style.css`);
+});
+
+app.get('/banner.svg', (req, res) => {
+    res.sendFile(`${__dirname}/banner.svg`);
 });
 
 class Loop {
@@ -22,16 +31,19 @@ class Loop {
     }
 
     start() {
+        if (this.intervalId !== null) {
+            console.log('Loop is already running');
+            return;
+        }
+
+        console.log('Loop is running...');
         this.intervalId = setInterval(() => {
             const randomNum = Math.floor(Math.random() * 10000) + 1;
-            console.log(randomNum);
-            console.log('Loop is running...');
             this.ws.send(JSON.stringify({
-                "type": 'saldo',
-                "data": randomNum
+                type: 'saldo',
+                data: randomNum,
             }));
-        }, 500);
-
+        }, 0);
     }
 
     stop() {
@@ -41,24 +53,86 @@ class Loop {
     }
 }
 
+// buat class dummy
+class ProsesDummy {
+    constructor(ws) {
+        this.ws = ws;
+        this.intervalId = null;
+        this.isRunning = false;
+    }
+
+    start() {
+        if (this.isRunning) {
+            console.log('Loop is already running');
+            return;
+        }
+
+        console.log('Loop is running...');
+        this.isRunning = true;
+        this.intervalId = setInterval(() => {
+            const random1 = Math.floor(Math.random() * 10000) + 1;
+            const random2 = Math.floor(Math.random() * 10000) + 1;
+            const random3 = Math.floor(Math.random() * 2);
+
+            this.ws.send(JSON.stringify({
+                a: 'dummy',
+                b: {
+                    a: random1,
+                    b: random2,
+                    c: random3,
+                },
+            }));
+        }, 200);
+    }
+
+    stop() {
+        clearInterval(this.intervalId);
+        this.intervalId = null;
+        this.isRunning = false;
+        console.log('Loop is stopped');
+    }
+}
+
 // WebSocket connection handling
 wss.on('connection', (ws) => {
     console.log('Client connected');
     let loop = null;
-    ws.on('message', (message) => {
+    let dummy = null;
+    dummy = new ProsesDummy(ws);
 
-        let data = JSON.parse(message);
+    ws.on('message', (message) => {
+        const data = JSON.parse(message);
         console.log(`Received: ${message}`);
 
-        if (data.type == 'getsaldo') {
+        if (data.type === 'getsaldo') {
+            if (loop !== null) {
+                console.log('Loop is already running');
+                return;
+            }
+
             loop = new Loop(ws);
             loop.start();
         }
 
-        if (data.type == 'waktu') {
-            // console.log('kenapa kok eror');
-            if (loop) {
+        if (data.type === 'waktu') {
+            if (loop !== null) {
                 loop.stop();
+                loop = null;
+            } else {
+                console.log('Loop is not running');
+            }
+        }
+
+        if (data.type === 'dummy') {
+            dummy.start();
+        }
+
+        if (data.type === 'stopdummy') {
+            if (dummy !== null) {
+                dummy.stop();
+                dummy = null;
+            } else {
+                console.log('Loop is not running');
             }
         }
     });
@@ -66,13 +140,11 @@ wss.on('connection', (ws) => {
     // Handle WebSocket close event
     ws.on('close', () => {
         console.log('Client disconnected');
-        if (loop) {
+        if (loop !== null) {
             loop.stop();
+            loop = null;
         }
     });
-
-    // Send message to specific client
-    // ws.send('Hello client with id ' + ws._socket._handle.fd);
 });
 
 // Start the server

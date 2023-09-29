@@ -89,11 +89,10 @@
         <div><b>BASE TRADE</b></div>
       </div>
       <div class="div-container contain d-grid gap-2">
-        <button type="button" class="btn btn-secondary m-1"
-          onclick="AddDataTable(Math.floor(Math.random() * 10), Math.floor(Math.random() * 10), Math.floor(Math.random() * 2))">START</button>
+        <button type="button" class="btn btn-secondary m-1" id="start-btn">START</button>
       </div>
       <div class="div-container contain d-grid gap-2">
-        <button type="button" class="btn btn-secondary m-1">
+        <button type="button" class="btn btn-secondary m-1" id="stop-btn">
           STOP on WIN
         </button>
       </div>
@@ -336,7 +335,70 @@
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
     crossorigin="anonymous"></script>
   <script>
-    function AddDataTable(trade, profit) {
+    let socket = null;
+
+    function connectWebSocket() {
+      socket = new WebSocket(`ws://${window.location.host}`);
+      // const socket = new WebSocket('wss://example.com/socket');
+
+      socket.addEventListener('open', (event) => {
+        console.log('WebSocket connection established');
+      });
+
+      socket.addEventListener('message', (event) => {
+
+
+        const message = JSON.parse(event.data);
+        // console.log(message);
+        if (message.a === 'dummy') {
+          const x = message.b.a;
+          const y = message.b.b;
+          const z = message.b.c;
+          AddDataTable(x, y, z);
+        }
+      });
+
+      socket.addEventListener('close', (event) => {
+        // alert koneksimu terputus dari server
+        console.log('WebSocket connection closed');
+        alert('Koneksimu terputus dari server, tolong refresh halaman ini');
+      });
+
+      socket.addEventListener('error', (event) => {
+        console.error('WebSocket error:', event);
+      });
+    }
+
+    window.addEventListener('load', function () {
+      connectWebSocket();
+    });
+
+    function sendMessage(message) {
+      if (socket.readyState === WebSocket.OPEN) {
+        socket.send(JSON.stringify(message));
+      } else {
+        console.error('WebSocket is not open');
+        connectWebSocket();
+      }
+    }
+
+    const startButton = document.getElementById('start-btn');
+    startButton.addEventListener('click', () => {
+      const message = {
+        type: 'dummy',
+      };
+      sendMessage(message);
+    });
+
+    const stopButton = document.getElementById('stop-btn');
+    stopButton.addEventListener('click', () => {
+      const message = {
+        type: 'stopdummy',
+      };
+      sendMessage(message);
+    });
+
+    function AddDataTable(trade, profit, status) {
       const tableBody = document.querySelector("#ResultData tbody");
 
       const newRow = document.createElement("tr");
@@ -349,7 +411,7 @@
       profitCell.textContent = profit;
       newRow.appendChild(profitCell);
 
-      if (profit > 0) {
+      if (status === 1) {
         newRow.classList.add("table-success");
       } else {
         newRow.classList.add("table-danger");
@@ -360,30 +422,6 @@
 
       // Insert the new row before the first row
       tableBody.insertBefore(newRow, firstRow);
-    }
-
-
-
-    function connectWebSocket() {
-      const socket = new WebSocket('wss://example.com/socket');
-
-      socket.addEventListener('open', (event) => {
-        console.log('WebSocket connection established');
-      });
-
-      socket.addEventListener('message', (event) => {
-        console.log(`Received message: ${event.data}`);
-      });
-
-      socket.addEventListener('close', (event) => {
-        console.log('WebSocket connection closed');
-      });
-
-      socket.addEventListener('error', (event) => {
-        console.error('WebSocket error:', event);
-      });
-
-      return socket;
     }
   </script>
 </body>
