@@ -3,6 +3,9 @@ const express = require('express');
 const http = require('http');
 const WebSocket = require('ws');
 
+// const proses = require('./Mobil.js');
+const Paradito = require('./Class.js');
+
 // Create Express app
 const app = express();
 const server = http.createServer(app);
@@ -93,13 +96,16 @@ class ProsesDummy {
     }
 }
 
+
+
+
 // WebSocket connection handling
 wss.on('connection', (ws) => {
     console.log('Client connected');
     let loop = null;
     let dummy = null;
     dummy = new ProsesDummy(ws);
-
+    let paradito = new Paradito(ws);
     ws.on('message', (message) => {
         const data = JSON.parse(message);
         console.log(`Received: ${message}`);
@@ -112,6 +118,15 @@ wss.on('connection', (ws) => {
 
             loop = new Loop(ws);
             loop.start();
+        }
+
+
+        if (data.type === 'okey') {
+            paradito.Balance();
+        }
+
+        if (data.type === 'global') {
+            paradito.Global();
         }
 
         if (data.type === 'waktu') {
@@ -130,7 +145,7 @@ wss.on('connection', (ws) => {
         if (data.type === 'stopdummy') {
             if (dummy !== null) {
                 dummy.stop();
-                dummy = null;
+                // dummy = null;
             } else {
                 console.log('Loop is not running');
             }
@@ -140,6 +155,7 @@ wss.on('connection', (ws) => {
     // Handle WebSocket close event
     ws.on('close', () => {
         console.log('Client disconnected');
+        paradito.stopAll();
         if (loop !== null) {
             loop.stop();
             loop = null;
