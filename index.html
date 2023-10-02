@@ -385,6 +385,15 @@
       input.addEventListener('change', (handleChange) => {
         console.log(handleChange.target.id);
         console.log(handleChange.target.value);
+        // send wss
+        const message = {
+          type: 'change',
+          apikey: apikey,
+          id: handleChange.target.id,
+          value: handleChange.target.value,
+        };
+
+        sendMessage(message);
       });
     });
 

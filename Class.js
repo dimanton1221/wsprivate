@@ -31,8 +31,8 @@ class Paradito {
         this.wss.send(JSON.stringify({
             type: 'global',
             data: {
-                "profit": 1,
-                "session": 1,
+                "profit": 2121,
+                "session": 21211,
             }
         }));
         console.log("Global is running...");
