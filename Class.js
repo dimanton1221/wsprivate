@@ -17,7 +17,7 @@ class Paradito {
         this.token = token;
     }
 
-    async Send(path, data, method = "POST") {
+    async Send(path, data = {}, method = "POST") {
         // add apikey pada data
         data.api_key = this.Apikey;
         data.language = "id";
@@ -116,43 +116,91 @@ class Paradito {
         // chance itu bilangan seperti 32.32 jadikan 3232
         chance = chance * 100;
 
-        const betAmt = amount;
-        const desiredPayout = 1;
-        const winningChance = parseFloat((chance / desiredPayout / 100).toFixed(2));
-        const actualPayout = parseFloat((95 / winningChance).toFixed(5));
-        const profit = (betAmt * actualPayout - betAmt).toFixed(8);
+        const bet_amt = amount;
+        const desired_payout = 1;
+        const winning_chance = parseFloat((chance / desired_payout) / 100).toFixed(2);
+        const actual_payout = (95 / winning_chance).toFixed(5);
+        const profit = (bet_amt * actual_payout - bet_amt).toFixed(8);
+        // console.log(`Winning Chance: ${winning_chance} | Profit: ${profit} | Actual Payout: ${actual_payout} | Bet Amount: ${bet_amt} | Desired Payout: ${desired_payout} | Type: ${type} | Amount: ${amount} | Chance: ${chance}`);
 
         const data = {
             language: "id",
             bet_amt: amount.toString(),
             coin: type,
             type: 2,
-            payout: actualPayout,
-            winning_chance: winningChance,
+            payout: actual_payout,
+            winning_chance: winning_chance,
             profit: profit,
-            client_seed:
-                "oEknwoHZnGLDxcHCMunbwhMbM9whZTWq2Sx7S9oBJU6kl7SZOhthOV5lztPTJ0J2",
+            client_seed: "oEknwoHZnGLDxcHCMunbwhMbM9whZTWq2Sx7S9oBJU6kl7SZOhthOV5lztPTJ0J2"
         };
-
         const { data: resultData } = await this.Send("dice/play", data);
-        return resultData;
-        // console.log(resultData);
 
+
+        return resultData;
     }
 
+    async inVault(amount, type) {
+        const data = {
+            amount: amount,
+            coin: type,
+        };
+        const { data: resultData } = await this.Send("vault/deposit", data);
+        return resultData;
+    }
+
+
+    async checkToken() {
+        console.log("Checking token");
+        const { data: resultData } = await this.Send("account/get-socket-token");
+        if (resultData.success === true) {
+            this.WsToken = resultData.socket_token;
+            // console.log("Token valid");
+            return true;
+        } else {
+            // console.log("Token invalid");
+            return false;
+        }
+    }
+
+    async outVault(amount, type, password) {
+        const data = {
+            amount: amount,
+            coin: type,
+            password: password,
+            tfa_code: "",
+        };
+
+        const { data: resultData } = await this.Send("vault/withdraw", data);
+
+        return resultData;
+    }
+
+    async a_to_b(a, b) {
+        const c = Math.floor(Math.random() * (b - a + 1) + a);
+        return c;
+    }
+    async m_to_o(m, o) {
+        const p = Math.floor(Math.random() * (o - m + 1) + m);
+        return p;
+    }
+
+    async to_satoshi(b) {
+        return b.toFixed(8);
+    }
 
 }
 
 // gunakan paradito
-paradito = new Paradito("7d24e89a8e0a0865063217fe1ab0da2c17acb498bcc9bf9b66e17aca9b6161f7");
 
-async function login() {
-    try {
-        // await paradito.login("username", "password");
-        const ini = await paradito.play(0.100, 40, "BTT");
-        console.log(ini);
-    } catch (error) {
+// async function login() {
+//     try {
+//         const pa = new Paradito("7d24e89a8e0a0865063217fe1ab0da2c17acb498bcc9bf9b66e17aca9b6161f7");
+//         // const ini = await pa.play(0.1, 50, "BTT");
+//         // console.log(ini);
+//         const hasil = await pa.checkToken();
+//         console.log(hasil);
+//     } catch (error) {
 
-    }
-}
-login();
+//     }
+// }
+// login();

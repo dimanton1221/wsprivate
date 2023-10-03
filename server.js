@@ -2,10 +2,13 @@
 const express = require('express');
 const http = require('http');
 const WebSocket = require('ws');
-
+// req db
+const db = require('./config/db.js');
 // const proses = require('./Mobil.js');
 const Paradito = require('./Class.js');
 
+// models
+const User = require('./Models/User');
 // Create Express app
 const app = express();
 const server = http.createServer(app);
