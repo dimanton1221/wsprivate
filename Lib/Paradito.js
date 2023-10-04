@@ -1,7 +1,6 @@
 // add axios
 const axios = require("axios");
 const { param } = require("express/lib/request");
-// const res = require("express/lib/response");
 
 class Paradito {
     // buat atribut base url
@@ -189,6 +188,9 @@ class Paradito {
     }
 
 }
+
+
+module.exports = Paradito;
 
 // gunakan paradito
 

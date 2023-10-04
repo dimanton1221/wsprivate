@@ -52,17 +52,5 @@ class Proses {
         this.removeProcess("ikan");
     }
 }
-
-// gunakan mobil
-// const mobil = new Proses();
-
-// mobil.helloWorld();
-// mobil.helloWorld();
-// mobil.helloWorld();
-
-// setTimeout(() => {
-//     mobil.stopHelloWorld();
-// }, 1000);
-
 // export
 module.exports = Proses;

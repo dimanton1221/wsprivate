@@ -2,32 +2,27 @@
 const express = require('express');
 const http = require('http');
 const WebSocket = require('ws');
-// req db
 const db = require('./config/db.js');
-// const proses = require('./Mobil.js');
-const Paradito = require('./Class.js');
-
+// lib
+const Paradito = require('./Lib/Paradito.js');
 // models
-const User = require('./Models/User');
-// Create Express app
+const User = require('./Models/User.js');
+
 const app = express();
 const server = http.createServer(app);
-
-// Create WebSocket server
 const wss = new WebSocket.Server({ server });
 
-// Serve static HTML file
 app.get('/', (req, res) => {
-    res.sendFile(`${__dirname}/index.html`);
+    res.sendFile(`${__dirname}/public/index.html`);
 });
 
 app.get('/style.css', (req, res) => {
     res.set('Content-Type', 'text/css');
-    res.sendFile(`${__dirname}/style.css`);
+    res.sendFile(`${__dirname}/public/style.css`);
 });
 
 app.get('/banner.svg', (req, res) => {
-    res.sendFile(`${__dirname}/banner.svg`);
+    res.sendFile(`${__dirname}/public/banner.svg`);
 });
 
 class Loop {
