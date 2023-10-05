@@ -23,6 +23,30 @@ const User = sequelize.define('User', {
         defaultValue: () => uuidv4(),
 
     },
+    token: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    id_aplikasi: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    shot: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0
+    },
+    profit_global: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0
+    },
+    reset_win: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0
+    },
+    settingan:{
+        type: DataTypes.STRING,
+        defaultValue: ""
+    }
 });
 
 

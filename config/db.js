@@ -1,6 +1,6 @@
 const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize("mariadb://root:@localhost:3306/paradito");
+const sequelize = new Sequelize("mariadb://root:11@localhost:3306/paradito");
 
 sequelize.authenticate()
     .then(() => {

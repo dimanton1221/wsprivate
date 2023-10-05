@@ -24,23 +24,16 @@ const KirimWaktu = (socket) => {
 }
 
 io.on("connection", (socket) => {
-
     let masih;
     socket.on('waktu', () => {
         masih = setInterval(() => {
             KirimWaktu(socket);
         }, 1000);
     });
-
-    // console.log("New client connected");
-    socket.on('chat message', (msg) => {
-        socket.emit('chat message', msg);
-    });
     socket.on('disconnect', () => {
         clearInterval(masih);
         console.log("Client disconnected");
     });
-
 });
 
 

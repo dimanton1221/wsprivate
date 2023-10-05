@@ -174,23 +174,25 @@ class Paradito {
         return resultData;
     }
 
-    async a_to_b(a, b) {
-        const c = Math.floor(Math.random() * (b - a + 1) + a);
-        return c;
-    }
-    async m_to_o(m, o) {
-        const p = Math.floor(Math.random() * (o - m + 1) + m);
-        return p;
-    }
 
-    async to_satoshi(b) {
-        return b.toFixed(8);
-    }
 
 }
 
 
-module.exports = Paradito;
+const a_to_b = (a, b) => {
+    const c = Math.floor(Math.random() * (b - a + 1) + a);
+    return c;
+}
+const m_to_o = (m, o) => {
+    const p = Math.floor(Math.random() * (o - m + 1) + m);
+    return p;
+}
+
+const to_satoshi = (b) => {
+    return b.toFixed(8);
+}
+
+module.exports = { Paradito, a_to_b, m_to_o, to_satoshi };
 
 // gunakan paradito
 
