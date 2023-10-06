@@ -71,6 +71,12 @@ class Paradito {
         return resultData.user_name;
     }
 
+    /**
+     * Mengambil saldo dari vault untuk suatu koin tertentu.
+     * @async
+     * @param {string} coin - Simbol koin yang ingin diambil saldo vault-nya.
+     * @returns {Promise<number>} Saldo dari vault untuk koin yang dimaksud.
+     */
     async getVaultBalance(coin) {
         const data = {
             'coin': coin,
@@ -93,14 +99,35 @@ class Paradito {
         return resultData.address;
     }
 
+    /**
+     * Mengambil saldo dari suatu koin.
+     * @async
+     * @param {string} coin - Simbol koin yang ingin diambil saldonya.
+     * @returns {Promise<number>} - Saldo dari koin yang diminta.
+     */
     async getBalance(coin) {
         const data = {
             coin: coin,
         };
-        const { data: resultData } = await this.Send("account/get-balance", data);
-        return resultData.balance;
+        const { data: resultData } = await this.Send("coin/get-balances", data);
+        // $balance = $rq['coins'][8]['balance'];
+        const balance = resultData.coins[8].balance;
+        return balance;
+        // return resultData.balance;
     }
 
+    /**
+     * Mengirimkan sejumlah koin dari akun pengguna ke alamat tujuan.
+     *
+     * @async
+     * @function SendBalance
+     * @memberof module:Paradito
+     * @instance
+     * @param {string} coin - Nama koin yang akan dikirimkan.
+     * @param {string} user_name - Nama pengguna yang akan mengirimkan koin.
+     * @param {number} amount - Jumlah koin yang akan dikirimkan.
+     * @returns {Promise<Object>} - Objek yang berisi data hasil pengiriman koin.
+     */
     async SendBalance(coin, user_name, amount) {
         const data = {
             coin: coin,
@@ -111,6 +138,14 @@ class Paradito {
         return resultData;
     }
 
+    /**
+     * Fungsi untuk memainkan permainan paradice.
+     * @async
+     * @param {number} amount - Jumlah uang yang akan dipertaruhkan.
+     * @param {number} chance - Peluang kemenangan dalam bentuk persen (contoh: 32.32).
+     * @param {string} type - Jenis koin yang digunakan dalam permainan.
+     * @returns {Promise<object>} - Objek hasil dari permainan paradice.
+     */
     async play(amount, chance, type) {
         // chance itu bilangan seperti 32.32 jadikan 3232
         chance = chance * 100;
@@ -199,10 +234,10 @@ module.exports = { Paradito, a_to_b, m_to_o, to_satoshi };
 // async function login() {
 //     try {
 //         const pa = new Paradito("7d24e89a8e0a0865063217fe1ab0da2c17acb498bcc9bf9b66e17aca9b6161f7");
-//         // const ini = await pa.play(0.1, 50, "BTT");
-//         // console.log(ini);
-//         const hasil = await pa.checkToken();
-//         console.log(hasil);
+//         const ini = await pa.play(0.1, 50, "BTT");
+//         // console.log(ini['profit']);
+//         // const hasil = await pa.getBalance("BTT");
+//         console.log(ini);
 //     } catch (error) {
 
 //     }
