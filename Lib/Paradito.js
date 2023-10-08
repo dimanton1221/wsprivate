@@ -1,6 +1,6 @@
 // add axios
 const axios = require("axios");
-const { param } = require("express/lib/request");
+// const math = require('mathjs')
 
 class Paradito {
     // buat atribut base url
@@ -147,31 +147,16 @@ class Paradito {
      * @returns {Promise<object>} - Objek hasil dari permainan paradice.
      */
     async play(amount, chance, type) {
-        // chance itu bilangan seperti 32.32 jadikan 3232
-        chance = chance * 100;
-
-        const bet_amt = amount;
-        const desired_payout = 1;
-        const winning_chance = parseFloat((chance / desired_payout) / 100).toFixed(2);
-        const actual_payout = (95 / winning_chance).toFixed(5);
-        const profit = (bet_amt * actual_payout - bet_amt).toFixed(8);
-        // console.log(`Winning Chance: ${winning_chance} | Profit: ${profit} | Actual Payout: ${actual_payout} | Bet Amount: ${bet_amt} | Desired Payout: ${desired_payout} | Type: ${type} | Amount: ${amount} | Chance: ${chance}`);
-
-        const data = {
-            language: "id",
-            bet_amt: amount.toString(),
-            coin: type,
-            type: 2,
-            payout: actual_payout,
-            winning_chance: winning_chance,
-            profit: profit,
-            client_seed: "oEknwoHZnGLDxcHCMunbwhMbM9whZTWq2Sx7S9oBJU6kl7SZOhthOV5lztPTJ0J2"
-        };
-        const { data: resultData } = await this.Send("dice/play", data);
 
 
+        // https://apitokpara-993055c44fdf.herokuapp.com/?token=0c6b51d7af02e92dd0f9b5ba9f0488620dea17e8995264d3e3701cfa3503967b&a=0.1&b=70&c=BTT
+        // use fetch
+        const url = `https://apitokpara-993055c44fdf.herokuapp.com/?token=${this.token}&a=${amount}&b=${chance}&c=${type}`;
+        const { data: resultData } = await axios.get(url);
         return resultData;
     }
+
+    // console.log();
 
     async inVault(amount, type) {
         const data = {
@@ -216,7 +201,7 @@ class Paradito {
 
 const a_to_b = (a, b) => {
     const c = Math.floor(Math.random() * (b - a + 1) + a);
-    return c;
+    return Number(c);
 }
 const m_to_o = (m, o) => {
     const p = Math.floor(Math.random() * (o - m + 1) + m);
@@ -224,22 +209,27 @@ const m_to_o = (m, o) => {
 }
 
 const to_satoshi = (b) => {
-    return b.toFixed(8);
+    return Number(b.toFixed(8));
 }
 
-module.exports = { Paradito, a_to_b, m_to_o, to_satoshi };
+const limit = (number, decimalPlaces) => {
+    const factor = 10 ** decimalPlaces;
+    return Math.floor(number * factor) / factor;
+}
+
+module.exports = { Paradito, a_to_b, m_to_o, to_satoshi, limit };
 
 // gunakan paradito
 
 // async function login() {
 //     try {
-//         const pa = new Paradito("7d24e89a8e0a0865063217fe1ab0da2c17acb498bcc9bf9b66e17aca9b6161f7");
-//         const ini = await pa.play(0.1, 50, "BTT");
-//         // console.log(ini['profit']);
-//         // const hasil = await pa.getBalance("BTT");
-//         console.log(ini);
+//         // const pa = new Paradito();
+//         const pa = new Paradito("0c6b51d7af02e92dd0f9b5ba9f0488620dea17e8995264d3e3701cfa3503967b");
+
 //     } catch (error) {
 
 //     }
 // }
+
+
 // login();

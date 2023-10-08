@@ -2,55 +2,30 @@ const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/db');
 const { v4: uuidv4 } = require('uuid');
 
-const User = sequelize.define('User', {
+const User = sequelize.define('user', {
     id: {
         type: DataTypes.UUID,
         defaultValue: () => uuidv4(),
         primaryKey: true
     },
-    // username password 
     username: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    tokenws: {
-        type: DataTypes.STRING,
-        // allowNull: false
-        defaultValue: () => uuidv4(),
-
+        type: DataTypes.TEXT,
+        allowNull: false
     },
     token: {
+        type: DataTypes.TEXT,
+        allowNull: true
+    },
+    referral: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
-    id_aplikasi: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    shot: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0
-    },
-    profit_global: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0
-    },
-    reset_win: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0
-    },
-    settingan:{
-        type: DataTypes.STRING,
-        defaultValue: ""
-    }
 });
 
-
-
-// User.sync({ alter: true });
 
 module.exports = User;
