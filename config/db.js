@@ -1,6 +1,6 @@
 const { Sequelize } = require('sequelize');
-
-const sequelize = new Sequelize("mariadb://root:11@localhost:3306/paradito");
+require('dotenv').config();
+const sequelize = new Sequelize(process.env.DB_URL);
 
 sequelize.authenticate()
     .then(() => {

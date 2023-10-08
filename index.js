@@ -2,37 +2,22 @@
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
+require('./config/dotenv');
+// sync models
+// require('./Models/Models');
 
-// const WebSocket = require('ws');
-const db = require('./config/db.js');
-// lib
-const Paradito = require('./Lib/Paradito.js');
-const { clear } = require('console');
-// models
-const { User } = require('./Models/User.js');
-const Configuration = require('./Models/Config.js');
-// const UserMaster = require('./Models/UserMaster.js');
-
-const { sequelize } = require('./config/db.js');
-
+// init modules
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
+
+// test wss
 app.use('/test', express.static('test'));
+
+
 app.use("/main", express.static('public'));
 
-
-(async () => {
-    // cari configuration berdasarkan username
-    const config = await Configuration.findOne({
-        where: {
-            userId: "1782475a-6574-11ee-8d93-0242ac130002"
-        }
-    });
-
-    console.log(config);
-})();
 
 
 const KirimWaktu = (socket) => {
@@ -55,7 +40,7 @@ io.on("connection", (socket) => {
 
 
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
