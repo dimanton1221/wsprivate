@@ -31,8 +31,6 @@
           </thead>
           <tbody>
             <tr class="table-danger">
-              <td>0.9887888756</td>
-              <td>0.9887888756</td>
             </tr>
           </tbody>
         </table>
@@ -334,10 +332,12 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
     crossorigin="anonymous"></script>
+  <script src="/socket.io/socket.io.js"></script>
   <script>
 
+    const username = 'Tionico11xa@gmail.com';
+    const password = 'Agita07@SuiteProfitBot';
 
-    // Coin 
     const coin = document.getElementById('coin');
 
     // status trade tok 
@@ -379,119 +379,24 @@
     const delay = document.getElementById('delay');
     const baseTrade = document.getElementById('base-trade');
 
+    const startBtn = document.getElementById('start-btn');
+    const StopBtn = document.getElementById('stop-btn');
+    const socket = io();
 
-    const inputs = document.querySelectorAll('input');
-    inputs.forEach(input => {
-      input.addEventListener('change', (handleChange) => {
-        console.log(handleChange.target.id);
-        console.log(handleChange.target.value);
-        // send wss
-        const message = {
-          type: 'change',
-          apikey: apikey,
-          id: handleChange.target.id,
-          value: handleChange.target.value,
-        };
-
-        sendMessage(message);
-      });
+    socket.on("connect", () => {
+      socket.emit("loaded", "halaman terload");
     });
 
 
-    function getGlobalProfitAndSession() {
-      const message = {
-        type: 'global',
-        apikey: apikey,
-      };
-      sendMessage(message);
-    }
+    startBtn.addEventListener("click", (event) => {
+      socket.emit("start", {
+      })
+    })
 
-
-    let apikey = 123;
-    let socket = null;
-
-    function connectWebSocket() {
-      socket = new WebSocket(`ws://${window.location.host}`);
-      // const socket = new WebSocket('wss://example.com/socket');
-
-      socket.addEventListener('open', (event) => {
-        console.log('WebSocket connection established');
-        const message = {
-          type: 'okey',
-          apikey: apikey,
-        };
-        sendMessage(message);
-        getGlobalProfitAndSession();
-
-      });
-
-      socket.addEventListener('message', (event) => {
-
-
-
-
-        const message = JSON.parse(event.data);
-        // console.log(message);
-        if (message.a === 'dummy') {
-          const x = message.b.a;
-          const y = message.b.b;
-          const z = message.b.c;
-          AddDataTable(x, y, z);
-        }
-        // jika saldo
-        if (message.type === 'saldo') {
-          saldo.textContent = message.data;
-        }
-
-        if (message.type === 'global') {
-          globalProfit.value = message.data.profit;
-          sessionProfit.value = message.data.session;
-        }
-
-      });
-
-
-      socket.addEventListener('close', (event) => {
-        // alert koneksimu terputus dari server
-        console.log('WebSocket connection closed');
-        alert('Koneksimu terputus dari server, tolong refresh halaman ini');
-      });
-
-      socket.addEventListener('error', (event) => {
-        console.error('WebSocket error:', event);
-      });
-    }
-
-    window.addEventListener('load', function () {
-      connectWebSocket();
-      // send message
-
+    StopBtn.addEventListener('click', (event) => {
+      socket.emit('stop');
     });
 
-    function sendMessage(message) {
-      if (socket.readyState === WebSocket.OPEN) {
-        socket.send(JSON.stringify(message));
-      } else {
-        console.error('WebSocket is not open');
-        connectWebSocket();
-      }
-    }
-
-    const startButton = document.getElementById('start-btn');
-    startButton.addEventListener('click', () => {
-      const message = {
-        type: 'dummy',
-      };
-      sendMessage(message);
-    });
-
-    const stopButton = document.getElementById('stop-btn');
-    stopButton.addEventListener('click', () => {
-      const message = {
-        type: 'stopdummy',
-      };
-      sendMessage(message);
-    });
 
     function AddDataTable(trade, profit, status) {
       const tableBody = document.querySelector("#ResultData tbody");
@@ -511,13 +416,10 @@
       } else {
         newRow.classList.add("table-danger");
       }
-
-      // Get the first row in the table body
       const firstRow = tableBody.firstChild;
-
-      // Insert the new row before the first row
       tableBody.insertBefore(newRow, firstRow);
     }
+
   </script>
 </body>
 
