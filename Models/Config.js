@@ -3,6 +3,7 @@ const { sequelize } = require('../config/db');
 
 const User = require('./User.js');
 const Config = sequelize.define('config', {
+    
     ch1: {
         type: DataTypes.FLOAT,
         allowNull: false,
@@ -83,22 +84,6 @@ const Config = sequelize.define('config', {
         allowNull: false,
         defaultValue: 1.0
     },
-});
-
-Config.belongsTo(User);
-User.hasOne(Config);
-User.hasOne(Config, { onDelete: 'cascade' });
-
-User.afterCreate(async (user, options) => {
-    console.log('Pengguna yang dibuat:', user.id);
-    try {
-        await Config.create({
-            UserId: user.id, // Hubungkan konfigurasi dengan pengguna
-            // Atur nilai-nilai default yang sesuai di sini jika diperlukan
-        });
-    } catch (error) {
-        console.error('Gagal membuat konfigurasi untuk pengguna:', error);
-    }
 });
 
 module.exports = Config;

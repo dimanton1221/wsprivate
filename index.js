@@ -3,8 +3,9 @@ const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
 require('./config/dotenv');
-// sync models
 require('./Models/Models');
+const User = require('./Models/User');
+const Config = require('./Models/Config');
 
 // init modules
 const app = express();
@@ -16,26 +17,47 @@ const io = socketIo(server);
 app.use('/test', express.static('test'));
 app.use("/main", express.static('public'));
 
+const waktu = async (io) => {
+    setInterval(() => {
+        io.emit('waktu', new Date());
+    }, 300);
+}
 
+io.on('connection', (socket) => {
 
+    socket.on('waktu', (data) => {
+        console.log(data);
+    });
 
+    socket.username;
+    socket.auth;
+    console.log('user connected');
 
-// io.on('connection', (socket) => {
-//     console.log('New client connected');
-//     socket.on('start', (data) => {
-//         console.log(data);
-//     });
+    socket.on('update', (data) => {
+        console.log('ada update data cooy')
+    });
+    socket.on('getConfig', () => {
+        console.log('ada yang ngambil data coy');
+        User.findOne({
+            where: {
+                username: 'Tionico11xa@gmail.com'
+            }
+        }).then(async (hasil) => {
+            const ConfigResult = await Config.findOne({
+                where: {
+                    userId: hasil.id
+                }
+            });
+            io.emit('config', ConfigResult);
+        }).catch((err) => {
+            io.emit('GAKBERES', err);
+        });
 
-//     socket.on("loaded", (data) => {
-//         console.log(data);
-//     });
-//     socket.on('stop', () => {
-//         socket.disconnect("unauthorized");
-//     });
-//     socket.on('disconnect', () => {
-//         console.log('Client disconnected');
-//     });
-// })
+    });
+    socket.on('disconnect', () => {
+        console.log('user disconnected');
+    });
+});
 
 
 const PORT = process.env.PORT || 4000;

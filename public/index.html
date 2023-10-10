@@ -41,10 +41,7 @@
         <div style="text-align: center">
           <!-- Menambahkan class text-center untuk mengatur teks ke tengah -->
           <select class="form-select" aria-label="Default select example" id="myCoin">
-            <option selected>Doge</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+            <option selected>BTT</option>
           </select>
         </div>
         <div><b>COIN</b></div>
@@ -336,8 +333,6 @@
   <script>
 
     const username = 'Tionico11xa@gmail.com';
-    const password = 'Agita07@SuiteProfitBot';
-
     const coin = document.getElementById('coin');
 
     // status trade tok 
@@ -384,14 +379,39 @@
     const socket = io();
 
     socket.on("connect", () => {
-      socket.emit("loaded", "halaman terload");
+      socket.emit('getConfig');
+      // socket.emit("loaded", "halaman terload");
+
+      // data roll
+      socket.on('roll', (data) => {
+        AddDataTable(data.trade, data.profit, data.status);
+      });
+
+      socket.on('config', (data) => {
+        console.log(data);
+        baseTrade.value = data.beta;
+        chance1.value = data.ch1;
+        chance2.value = data.ch2;
+        boom.value = data.boom;
+        shoot.value = data.shoot;
+      });
+
+      // add listener pada windows jika selesai diload
+      document.addEventListener('DOMContentLoaded', function () {
+
+      });
+
+      // ketika start ambil config
+      startBtn.addEventListener('click', () => {
+        socket.emit('getConfig');
+      });
+
     });
 
 
-    startBtn.addEventListener("click", (event) => {
-      socket.emit("start", {
-      })
-    })
+
+
+
 
     StopBtn.addEventListener('click', (event) => {
       socket.emit('stop');
