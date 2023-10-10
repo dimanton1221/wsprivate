@@ -6,8 +6,17 @@ const { Paradito, a_to_b, m_to_o, to_satoshi } = require('./Paradito.js');
 
 class NgeGame extends Paradito {
 
-    constructor(contoh) {
-        super("0c6b51d7af02e92dd0f9b5ba9f0488620dea17e8995264d3e3701cfa3503967b");
+    constructor() {
+        super();
+    }
+
+
+    init(username, password, config) {
+        this.username = username;
+        this.password = password;
+
+        this.config = config;
+        // super("0c6b51d7af02e92dd0f9b5ba9f0488620dea17e8995264d3e3701cfa3503967b");
         this.roll = 0;
         // this.rollmulti = 0;
         this.profit_global = 0;
@@ -23,49 +32,62 @@ class NgeGame extends Paradito {
         this.profit_min = 0;
         this.hitung_profits = 0;
         this.game;
+        this.token = config.token;
+        super.token = config.token;
     }
 
-    async getInfoSet(username) {
-        if (this.username == "contoh" || username == "contoh") {
-            const balance = await super.getBalance("BTT");
+    async getInfoSet() {
+        const balance = await super.getBalance("BTT");
+        if (!this.config) {
             this.shot = 1000;
             this.beta = 0.1;
-            // $input = $bet_awal = $row['input'] * $balance / 100;
-            this.input = this.bet_awal = this.beta; // * balance / 100;
-            // console.log(this.input);
             this.input_ws = 1;
             this.input_wl = 0;
             this.martilos = 120;
             this.martiwin = 0;
-            this.reset = 0; // rubah jadi tombol
-            this.pg = 0;
             this.input_global = 500000;
-            this.input_global_win = 1;
             this.input_season = 1;
-            // this.tradecount = 1;
-            // this.tradecount_win = 1;
-            this.totalrebet = 4;
             this.delay = 2.5 * 1000;
-            this.coin = "BTT";
             this.ch1 = 47;
             this.ch2 = 47;
-            this.lb = 0;
-            this.ip = balance - balance * 110 / 100;
-            this.p = this.ip;
             this.ifwin = 0; // fungsi input if lose
             this.ifwinbom = to_satoshi(10.00000001); // fungsi input auto boom if win
             this.iflos = 0; // fungsi input if lose 
+            this.boom = 10000;
             this.iflosboom = to_satoshi(10.00000001); // fungsi input auto boom if lose
-
-            // console.log("static");
         } else {
-
-            if (!this.username) {
-                this.username = username;
-            }
-            const user = await User.findOne({ username: this.username });
-            console.log(user.settingan);
+            this.ch1 = Number(this.config.ch1);
+            this.ch2 = Number(this.config.ch2);
+            this.boom = Number(this.config.boom);
+            this.shot = Number(this.config.shot);
+            this.delay = Number(this.config.delay) * 1000;
+            this.beta = Number(this.config.beta);
+            this.input_global = Number(this.config.input_global);
+            this.input_season = Number(this.config.input_season);
+            this.martilos = Number(this.config.martilos);
+            this.martiwin = Number(this.config.martiwin);
+            this.input_ws = Number(this.config.input_ws);
+            this.input_wl = Number(this.config.input_wl);
+            this.ifwin = Number(this.config.ifwin);
+            this.ifwinbom = Number(this.config.ifwinbom);
+            this.iflos = Number(this.config.iflos);
+            this.iflosboom = Number(this.config.iflosboom);
         }
+        this.input = this.bet_awal = this.beta; // * balance / 100;
+        this.ip = balance - balance * 110 / 100;
+        this.p = this.ip;
+        this.reset = 0; // rubah jadi tombol
+        this.pg = 0;
+        this.totalrebet = 4;
+        this.coin = "BTT";
+        this.lb = 0;
+        // jika token belum ada maka login
+        await this.login(this.username, this.password);
+        // this.tradecount = 1;
+        // this.tradecount_win = 1;
+
+
+
 
     }
 
@@ -181,7 +203,13 @@ class NgeGame extends Paradito {
 
             this.roll++;
             console.log(`Bet = ${to_satoshi(this.bet_awal)} || status ${status} || Chance = ${this.reset_if_win} || Roll ${this.input_ws} || rebet = ${this.ws} || Profit = ${this.profit_min} || Balance ${balance} || Season = ${this.profit_season} || Global = ${this.profit_global}`);
-
+            this.callbackMain({
+                trade: to_satoshi(this.bet_awal),
+                profit: this.profit_min,
+                win: this.win_save,
+                lose: this.lose_save,
+                global: this.profit_global
+            })
             if (status == 'Lose') {
                 this.bet_awal = (this.bet_awal * (100 + this.martilos)) / 100;
             } else {
@@ -198,7 +226,7 @@ class NgeGame extends Paradito {
                 this.p = this.ip;
             }
             if (this.iflos != 0) {
-                if (this.skors_lose == $iflos) {
+                if (this.skors_lose == this.iflos) {
                     this.bet_awal = this.iflosboom;
                 } else {
                     this.bet_awal = this.bet_awal;
@@ -255,21 +283,42 @@ class NgeGame extends Paradito {
     }
 
 
+    async login() {
+        // console.log(this.token);
+        if (!this.token) {
+            await super.login(this.username, this.password);
+        }
+    }
+
     async shot() {
         super.getBalance();
     }
-    async stop() {
+
+    async balance(callback) {
+        this.balance_proses = setInterval(async () => {
+            const balance = await super.getBalance(this.coin);
+            callback(balance);
+        }, 1000); // setting ae sak enak e 
+    }
+
+    main(callback) {
+        this.callbackMain = callback;
+    }
+
+    stop() {
         clearInterval(this.game);
+        clearInterval(this.balance_proses);
         console.log("STOP GAME");
+
     }
 
 }
-const asas = new NgeGame();
-const test = async () => {
-    await asas.getInfoSet("contoh");
-    await asas.MainGame();
-};
+// const asas = new NgeGame();
+// const test = async () => {
+//     await asas.getInfoSet("contoh");
+//     await asas.MainGame();
+// };
 
 
-test();
+// test();
 module.exports = NgeGame;

@@ -49,9 +49,9 @@
       <div class="div-container contain">
         <div class="d-flex">
           <input class="form-control form-control-sm mx-1 text-center" type="text" placeholder="0"
-            aria-label=".form-control-sm example" id="chance-1" />
+            aria-label=".form-control-sm example" id="ch1" />
           <input class="form-control form-control-sm mx-1 text-center" type="text" placeholder="0"
-            aria-label=".form-control-sm example" id="chance-2" />
+            aria-label=".form-control-sm example" id="ch2" />
         </div>
         <div><b>CHANCE</b></div>
       </div>
@@ -65,7 +65,7 @@
       <div class="div-container contain">
         <div class="d-flex">
           <input class="form-control form-control-sm mx-1 text-center" type="text" placeholder="0"
-            aria-label=".form-control-sm example" id="shoot" />
+            aria-label=".form-control-sm example" id="shot" />
         </div>
         <div><b>SHOOT</b></div>
       </div>
@@ -79,7 +79,7 @@
       <div class="div-container contain">
         <div class="d-flex">
           <input class="form-control form-control-sm mx-1 text-center" type="text" placeholder="0"
-            aria-label=".form-control-sm example" id="base-trade" />
+            aria-label=".form-control-sm example" id="beta" />
         </div>
         <div><b>BASE TRADE</b></div>
       </div>
@@ -123,7 +123,7 @@
             <td>Profit Global</td>
           </tr>
           <tr>
-            <td class="table-primary" style="width: 100px" id="SaldoTok">2.0000000</td>
+            <td class="table-primary" style="width: 100px" id="SaldoTok">0.0000000</td>
             <td class="table-success" id="WINTOK">0</td>
             <td class="table-danger" id="LoseTok">0</td>
             <td class="table-primary" id="RollTok">0</td>
@@ -159,14 +159,14 @@
     <div class="col-6">
       <div class="d-flex justify-content-center align-items-center mx-2">
         PROFIT GLOBAL
-        <input id="profit-global" class="form-control form-control-sm mx-2 text-center" type="text" placeholder="0"
+        <input id="input_global" class="form-control form-control-sm mx-2 text-center" type="text" placeholder="0"
           aria-label=".form-control-sm example" />
       </div>
     </div>
     <div class="col-6">
       <div class="d-flex justify-content-center align-items-center mx-2">
         PROFIT SESSION
-        <input id="profit-session" class="form-control form-control-sm mx-2 text-center" type="text" placeholder="0"
+        <input id="input_season" class="form-control form-control-sm mx-2 text-center" type="text" placeholder="0"
           aria-label=".form-control-sm example" />
       </div>
     </div>
@@ -190,38 +190,38 @@
       <tr>
         <td>MARTI WIN</td>
         <td>
-          <input id="marti-win" class="form-control inputt form-control-sm mx-1" type="text" placeholder="0%"
+          <input id="martiwin" class="form-control inputt form-control-sm mx-1" type="text" placeholder="0%"
             aria-label=".form-control-sm example" />
         </td>
         <td class="text-end">MARTI LOSE</td>
         <td class="text-end">
-          <input id="marti-lose" class="form-control inputt form-control-sm mx-1" type="text" placeholder="0%"
+          <input id="martilos" class="form-control inputt form-control-sm mx-1" type="text" placeholder="0%"
             aria-label=".form-control-sm example" />
         </td>
       </tr>
       <tr>
         <td>RESET MARTI IF WIN</td>
         <td>
-          <input id="reset-marti-win" class="form-control inputt form-control-sm mx-1" type="text" placeholder="0"
+          <input id="input_ws" class="form-control inputt form-control-sm mx-1" type="text" placeholder="0"
             aria-label=".form-control-sm example" />
         </td>
         <td class="text-end">RESET MARTI IF LOSE</td>
         <td class="text-end">
-          <input id="reset-marti-lose" class="form-control inputt form-control-sm mx-1" type="text" placeholder="0"
+          <input id="input_wl" class="form-control inputt form-control-sm mx-1" type="text" placeholder="0"
             aria-label=".form-control-sm example" />
         </td>
       </tr>
       <tr>
-        <td>RESET WIN TRADE</td>
-        <td>
+        <!-- <td>RESET WIN TRADE</td> -->
+        <!-- <td>
           <input id="reset-win-trade" class="form-control inputt form-control-sm mx-1" type="text" placeholder="0"
             aria-label=".form-control-sm example" />
-        </td>
-        <td class="text-end">RESET TRADE AFTER LOSE</td>
+        </td> -->
+        <!-- <td class="text-end">RESET TRADE AFTER LOSE</td>
         <td class="text-end">
           <input id="reset-trade-after-lose" class="form-control inputt form-control-sm mx-1" type="text"
             placeholder="0" aria-label=".form-control-sm example" />
-        </td>
+        </td> -->
       </tr>
     </table>
   </div>
@@ -244,30 +244,30 @@
       <tr>
         <td>IF WIN</td>
         <td>
-          <input id="if-win" class="form-control inputt form-control-sm mx-1" type="text" placeholder="0"
+          <input id="ifwin" class="form-control inputt form-control-sm mx-1" type="text" placeholder="0"
             aria-label=".form-control-sm example" />
         </td>
         <td class="text-end">IF LOSE</td>
         <td class="text-end">
-          <input id="if-lose" class="form-control inputt form-control-sm mx-1" type="text" placeholder="0"
+          <input id="iflose" class="form-control inputt form-control-sm mx-1" type="text" placeholder="0"
             aria-label=".form-control-sm example" />
         </td>
       </tr>
       <tr>
         <td>AUTO BOOM</td>
         <td>
-          <input id="auto-boom-win" class="form-control inputt form-control-sm mx-1" type="text" placeholder="0"
+          <input id="ifwinbom" class="form-control inputt form-control-sm mx-1" type="text" placeholder="0"
             aria-label=".form-control-sm example" />
         </td>
         <td class="text-end">AUTO BOOM</td>
         <td class="text-end">
-          <input id="auto-boom-lose" class="form-control inputt form-control-sm mx-1" type="text" placeholder="0"
+          <input id="iflosboom" class="form-control inputt form-control-sm mx-1" type="text" placeholder="0"
             aria-label=".form-control-sm example" />
         </td>
       </tr>
     </table>
   </div>
-  <div class="row mt-3 flex-wrap">
+  <!-- <div class="row mt-3 flex-wrap">
     <div class="col-12 p-0">
       <div class="d-flex justify-content-center align-items-center" style="background-color: #cfe2ff; color: black">
         CHANGE TRADE HIGHT / LOW
@@ -295,12 +295,12 @@
       <input id="if-lose-input" class="form-control form-control-sm" type="text" placeholder="0"
         aria-label=".form-control-sm example" />
     </div>
-  </div>
+  </div> -->
   <nav class="navbar navbar-text-white" style="background-color: #0b579e">
     <div class="container-fluid align-items-center">
-      <button id="refresh-btn" type="button" class="btn btn-info" style="line-height: normal">
+      <!-- <button id="refresh-btn" type="button" class="btn btn-info" style="line-height: normal">
         REFRESH
-      </button>
+      </button> -->
       <button id="logout-btn" type="button" class="btn btn-danger" style="line-height: normal">
         LOGOUT
       </button>
@@ -314,14 +314,24 @@
         ".table-bordered tbody tr:first-child td"
       );
 
-      headerColumns.forEach((headerCol, index) => {
-        const width = window.getComputedStyle(dataColumns[index]).width;
-        headerCol.style.width = width;
-      });
+      if (headerColumns.length > 0) {
+        headerColumns.forEach((headerCol, index) => {
+          const dataCol = dataColumns[index];
+          if (dataCol instanceof Element) {
+            const width = window.getComputedStyle(dataCol).width;
+            headerCol.style.width = width;
+          } else {
+            // console.error(`Invalid element at index ${index}`);
+          }
+        });
+      }
     }
 
     // Panggil fungsi setColumnWidths saat halaman dimuat
-    window.addEventListener("load", setColumnWidths);
+    window.addEventListener("load", () => {
+      // console.log('halaman terload');
+      setColumnWidths();
+    });
 
     // Panggil fungsi setColumnWidths saat halaman diubah ukurannya
     window.addEventListener("resize", setColumnWidths);
@@ -342,75 +352,120 @@
     const roll = document.getElementById('RollTok');
 
     // global profit dan session profit
-    const globalProfit = document.getElementById('profit-global');
-    const sessionProfit = document.getElementById('profit-session');
+    const globalProfit = document.getElementById('input_global');
+    const sessionProfit = document.getElementById('input_season');
 
     // trade win
-    const martiWin = document.getElementById('marti-win');
-    const martiLose = document.getElementById('marti-lose');
-    const resetMartiWin = document.getElementById('reset-marti-win');
+    const martiWin = document.getElementById('martiwin');
+    const martiLose = document.getElementById('martilos');
+    const resetMartiWin = document.getElementById('input_ws');
     // trade lose
-    const resetMartiLose = document.getElementById('reset-marti-lose');
-    const resetWinTrade = document.getElementById('reset-win-trade');
-    const resetTradeAfterLose = document.getElementById('reset-trade-after-lose');
+    const resetMartiLose = document.getElementById('input_wl');
+    // const resetWinTrade = document.getElementById('reset-win-trade');
+    // const resetTradeAfterLose = document.getElementById('reset-trade-after-lose');
 
     // auto boom
-    const ifWin = document.getElementById('if-win');
-    const autoBoomWin = document.getElementById('auto-boom-win');
-    const ifLose = document.getElementById('if-lose');
-    const autoBoomLose = document.getElementById('auto-boom-lose');
+    const ifWin = document.getElementById('ifwin');
+    const autoBoomWin = document.getElementById('ifwinbom');
+    const ifLose = document.getElementById('iflose');
+    const autoBoomLose = document.getElementById('iflosboom');
 
     // Change trade hight / low
     const logicSelect = document.getElementById('logicSelect');
     const ifWinInput = document.getElementById('if-win-input');
     const ifLoseInput = document.getElementById('if-lose-input');
 
-    // My 
+    // Kanan Menu
     const myCoin = document.getElementById('myCoin');
-    const chance1 = document.getElementById('chance-1');
-    const chance2 = document.getElementById('chance-2');
+    const chance1 = document.getElementById('ch1');
+    const chance2 = document.getElementById('ch2');
+    const baseTrade = document.getElementById('beta');
     const boom = document.getElementById('boom');
-    const shoot = document.getElementById('shoot');
+    const shoot = document.getElementById('shot');
     const delay = document.getElementById('delay');
-    const baseTrade = document.getElementById('base-trade');
 
+
+    // Button 
     const startBtn = document.getElementById('start-btn');
     const StopBtn = document.getElementById('stop-btn');
     const socket = io();
 
+
+    startBtn.addEventListener('click', (event) => {
+      console.log('PLAY');
+      socket.emit('play');
+    });
+
     socket.on("connect", () => {
       socket.emit('getConfig');
+      socket.emit('getBalance');
       // socket.emit("loaded", "halaman terload");
 
       // data roll
-      socket.on('roll', (data) => {
-        AddDataTable(data.trade, data.profit, data.status);
-      });
+      // socket.on('roll', (data) => {
+      //   AddDataTable(data.trade, data.profit, data.status);
+      // });
 
       socket.on('config', (data) => {
-        console.log(data);
+        // console.log(data);
+        // menu Kanan
         baseTrade.value = data.beta;
         chance1.value = data.ch1;
         chance2.value = data.ch2;
         boom.value = data.boom;
-        shoot.value = data.shoot;
+        shoot.value = data.shot;
+        delay.value = data.delay;
+        globalProfit.value = data.input_global;
+        sessionProfit.value = data.input_season;
+        martiWin.value = data.martiwin;
+        martiLose.value = data.martilos;
+        resetMartiWin.value = data.input_ws;
+        resetMartiLose.value = data.input_wl;
+        ifWin.value = data.ifwin;
+        ifLose.value = data.iflose;
+        autoBoomWin.value = data.ifwinbom;
+        autoBoomLose.value = data.iflosboom;
+
       });
 
-      // add listener pada windows jika selesai diload
-      document.addEventListener('DOMContentLoaded', function () {
+      socket.on('GAKBERES', (data) => {
+        alert('GAK BERES | ' + data);
+      })
 
+      socket.on('balance', (data) => {
+        saldo.textContent = data;
       });
 
-      // ketika start ambil config
-      startBtn.addEventListener('click', () => {
-        socket.emit('getConfig');
-      });
+      socket.on('roll', (data) => {
+        AddDataTable(data.trade, data.profit, 1);
+      })
 
     });
 
 
+    socket.on('disconnect', () => {
+      alert('Periksa KOneksimu njirr')
+    });
 
+    const inputElements = document.querySelectorAll('input');
+    // add event listener for onkeypress event for each input element
+    inputElements.forEach((inputElement) => {
+      inputElement.addEventListener('keyup', (event) => {
 
+        const inputId = event.target.id;
+        const inputValue = event.target.value;
+        // tidak kosong dan nomor saja
+        if (inputValue !== '' && !isNaN(inputValue)) {
+          socket.emit('update', {
+            data: {
+              // data adalah id dan value dari input element
+              id: inputId,
+              value: inputValue
+            }
+          });
+        }
+      });
+    });
 
 
     StopBtn.addEventListener('click', (event) => {

@@ -6,7 +6,7 @@ class Paradito {
     // buat atribut base url
     baseUrl = "https://api.pasino.com/";
     Apikey = "fcc202e384564c0fc1dc95b784c89d95f32d02782dbbf0865eeffc23a2298344";
-    token = undefined;
+    // token = undefined;
     // buat constructor
 
     // constructor() {
@@ -32,6 +32,7 @@ class Paradito {
     }
 
     async login(username, password) {
+
         const data = {
             user: username,
             password: password,
