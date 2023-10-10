@@ -8,20 +8,20 @@ const SyncDb = async () => {
 
 
 
-        // await sequelize.sync({ force: true });
-        // await user.create({
-        //     username: 'Tionico11xa@gmail.com',
-        //     password: 'Agita07@SuiteProfitBot',
-        // });
-
-        const hasil = await user.findOne({
-            where: {
-                username: 'Tionico11xa@gmail.com'
-            }
+        await sequelize.sync({ force: true });
+        await user.create({
+            username: 'Tionico11xa@gmail.com',
+            password: 'Agita07@SuiteProfitBot',
         });
 
-        const plain = hasil.get({ plain: true });
-        console.log(plain);
+        // const hasil = await user.findOne({
+        //     where: {
+        //         username: 'Tionico11xa@gmail.com'
+        //     }
+        // });
+
+        // const plain = hasil.get({ plain: true });
+        // console.log(plain);
 
     } catch (error) {
         console.log(error);
