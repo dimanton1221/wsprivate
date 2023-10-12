@@ -164,7 +164,7 @@ class Paradito {
             amount: amount,
             coin: type,
         };
-        const { data: resultData } = await this.Send("vault/deposit", data);
+        const { data: resultData } = await this.Send("vault/transfer-in", data);
         return resultData;
     }
 
@@ -190,7 +190,7 @@ class Paradito {
             tfa_code: "",
         };
 
-        const { data: resultData } = await this.Send("vault/withdraw", data);
+        const { data: resultData } = await this.Send("vault/transfer-out", data);
 
         return resultData;
     }

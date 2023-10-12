@@ -29,6 +29,7 @@ class NgeGame extends Paradito {
         this.skors_lose = 0;
         this.lose_save = 0;
         this.win_save = 0;
+        this.statroll = 0;
         this.profit_min = 0;
         this.hitung_profits = 0;
         this.game;
@@ -41,26 +42,26 @@ class NgeGame extends Paradito {
         if (!this.config) {
             this.shot = 1000;
             this.beta = 0.1;
-            this.input_ws = 1;
+            this.input_ws = 2;
             this.input_wl = 0;
-            this.martilos = 120;
-            this.martiwin = 0;
+            this.martilos = 100;
+            this.martiwin = 100;
             this.input_global = 500000;
-            this.input_season = 1;
+            this.input_season = 100;
             this.delay = 2.5 * 1000;
-            this.ch1 = 47;
-            this.ch2 = 47;
+            this.ch1 = 60;
+            this.ch2 = 70;
             this.ifwin = 0; // fungsi input if lose
             this.ifwinbom = to_satoshi(10.00000001); // fungsi input auto boom if win
-            this.iflos = 0; // fungsi input if lose 
-            this.boom = 10000;
+            this.iflos = 1000; // fungsi input if lose 
+            this.boom = 1000;
             this.iflosboom = to_satoshi(10.00000001); // fungsi input auto boom if lose
         } else {
             this.ch1 = Number(this.config.ch1);
             this.ch2 = Number(this.config.ch2);
             this.boom = Number(this.config.boom);
             this.shot = Number(this.config.shot);
-            this.delay = Number(this.config.delay) * 1000;
+            this.delay = Number(this.config.delay+2) * 1000;
             this.beta = Number(this.config.beta);
             this.input_global = Number(this.config.input_global);
             this.input_season = Number(this.config.input_season);
@@ -146,6 +147,8 @@ class NgeGame extends Paradito {
                 status = 'Win';
             }
 
+
+
             // let status_bet;
             // if (this.profit < 0) {
             //     status_bet = 'LOSE';
@@ -155,18 +158,47 @@ class NgeGame extends Paradito {
 
 
 
-            if (this.profit > 0) {
-                this.ws = this.ws + 1;
+
+
+
+            if (this.profit > 0){
+                this.statroll =  this.skors_win; // warna hijau
+            }else{
+                this.statroll = this.skors_lose; // warna
+            }
+
+
+
+
+            
+            this.roll++;
+            console.log(`Bet = ${to_satoshi(this.bet_awal)} || status ${status} || Chance = ${this.chance} || Roll ${this.roll} || rebet = ${this.rebet} || Profit = ${this.profit_min} || Balance ${balance} || Season = ${this.profit_season} || Global = ${this.profit_global}`);
+            this.callbackMain({
+                trade: to_satoshi(this.bet_awal),
+                profit: this.profit_min,
+                win: this.win_save,
+                lose: this.lose_save,
+                global: this.profit_global
+            })
+
+            if (status == 'Lose') {
+                this.bet_awal = (this.bet_awal * (100 + this.martilos)) / 100;
+            } else {
+                this.bet_awal = (this.bet_awal * (100 + this.martiwin)) / 100;
+            }
+
+            if (this.profit > 0){
+                this.ws = 1;
                 this.skors_win = this.skors_win + 1;
                 if (this.skors_lose > this.lose_save) {
                     this.lose_save = this.skors_lose;
                 }
                 this.skors_lose = 0;
-                this.reset_if_win = this.reset_if_lose + 1;
+                this.reset_if_win = this.reset_if_win + 1;
                 if (this.reset_if_lose != 0) {
                     this.reset_if_lose = this.reset_if_lose - 1;
                 }
-            } else {
+            } else{
                 this.wl = 1;
                 this.skors_lose = this.skors_lose + 1;
                 if (this.skors_win > this.win_save) {
@@ -178,42 +210,28 @@ class NgeGame extends Paradito {
                     this.reset_if_win = this.reset_if_win - 1;
                 }
             }
-
-            if (this.input_wl == 0) {
+            
+            if (this.input_wl == 0){
                 this.input_wl = this.input_wl - 1;
             }
-
-            if (this.input_ws == 0) {
+            
+            
+            if (this.input_ws == 0){
                 this.input_ws = this.input_ws - 1;
             }
+            
 
-            if (this.reset_if_win == this.input_ws) {
-                this.bet_awal = this.input;
+            if (this.reset_if_win == this.input_ws){
                 this.reset_if_win = 0;
-                this.lb = 0;
+                this.bet_awal = this.input;
                 this.pg = 0;
+                this.profit_season = 0;
                 this.p = this.ip;
+                this.lb = 0;
             }
-
-            if (this.reset_if_lose == this.input_wl) {
+            if (this.reset_if_lose == this.input_wl){
                 this.bet_awal = this.input;
                 this.reset_if_lose = 0;
-            }
-
-
-            this.roll++;
-            console.log(`Bet = ${to_satoshi(this.bet_awal)} || status ${status} || Chance = ${this.reset_if_win} || Roll ${this.input_ws} || rebet = ${this.ws} || Profit = ${this.profit_min} || Balance ${balance} || Season = ${this.profit_season} || Global = ${this.profit_global}`);
-            this.callbackMain({
-                trade: to_satoshi(this.bet_awal),
-                profit: this.profit_min,
-                win: this.win_save,
-                lose: this.lose_save,
-                global: this.profit_global
-            })
-            if (status == 'Lose') {
-                this.bet_awal = (this.bet_awal * (100 + this.martilos)) / 100;
-            } else {
-                this.bet_awal = (this.bet_awal * (100 - this.martiwin)) / 100;
             }
 
 
@@ -226,7 +244,7 @@ class NgeGame extends Paradito {
                 this.p = this.ip;
             }
             if (this.iflos != 0) {
-                if (this.skors_lose == this.iflos) {
+                if (this.iflos == this.skors_lose ) {
                     this.bet_awal = this.iflosboom;
                 } else {
                     this.bet_awal = this.bet_awal;
@@ -234,7 +252,7 @@ class NgeGame extends Paradito {
             }
 
             if (this.ifwin != 0) {
-                if (this.skors_win == this.ifwin) {
+                if (this.ifwin == this.skors_win) {
                     this.bet_awal = this.ifwinbom;
                 } else {
                     this.bet_awal = this.bet_awal;
@@ -249,17 +267,6 @@ class NgeGame extends Paradito {
                 this.p = this.ip;
             }
 
-
-            // this.rollmulti++;
-
-            // if (this.rollmulti == this.tradecount) {
-            // this.roll++;
-            // console.log(`Bet = ${this.bet_awal} || status ${status_bet} || Roll ${this.roll} || Profit = ${this.profit_min} || Balance ${balance} || Season = ${this.profit_season} || Global = ${this.profit_global}`);
-
-            // this.rollmulti = 0;
-            // this.hitung_profits = 0;
-
-            // }
 
             if (this.profit_global > this.input_global) {
                 console.log(`Profit Global Tercapai , Profit Global = ${this.profit_global}`);
@@ -278,6 +285,7 @@ class NgeGame extends Paradito {
                 console.log(`Balance tidak cukup`);
                 this.stop();
             }
+
 
         }, this.delay);
     }

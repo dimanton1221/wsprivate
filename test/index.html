@@ -1,37 +1,17 @@
-<!DOCTYPE html>
 <html>
 
+<head>
+    <title>Test</title>
+</head>
 
 <body>
-    <h1 id="time">Test</h1>
+    <form action="/api/login" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username"><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password"><br><br>
+        <input type="submit" value="Submit">
+    </form>
 </body>
-
-<script src="/socket.io/socket.io.js"></script>
-<script>
-    const socket = io();
-    const time = document.getElementById('time');
-
-
-    socket.on('connect', () => {
-        console.log('connected');
-    });
-
-
-    socket.on('waktu', (data) => {
-        // console.log(data);
-        time.textContent = data;
-    });
-
-    
-
-
-    document.addEventListener("DOMContentLoaded", function (event) {
-        console.log("DOM fully loaded and parsed");
-        socket.emit('waktu');
-    });
-</script>
-
-
-</script>
 
 </html>

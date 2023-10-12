@@ -2,118 +2,59 @@
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
+const session = require('express-session');
+const { sessionStore } = require('./config/sesi');
+
+// config
 require('./config/dotenv');
 require('./Models/Models');
-const User = require('./Models/User');
-const Config = require('./Models/Config');
-const roll = require('./Lib/roll');
 // init modules
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
+// add middlewares
+const { aliran } = require('./Middlewares/Socket');
+const { CheckAuth2 } = require('./Middlewares/AuthCheck');
+
+const sessionMiddleware = session({
+    secret: 'rahasia',
+    resave: false,
+    store: sessionStore,
+    saveUninitialized: true,
+    cookie: { maxAge: 24 * 60 * 60 * 1000 }
+});
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(sessionMiddleware);
+io.engine.use(sessionMiddleware);
+app.set('view engine', 'hbs');
 
 
-// test wss
+// add Routers
+const test = require('./Routers/test');
+const LoginTest = require('./Routers/testLogin');
+
+
+
+app.use("/api", test);
 app.use('/test', express.static('test'));
-app.use("/main", express.static('public'));
+// app.use("/main", express.static('public'));
+// io.use(CheckAuth2);
+// io.on('connection', aliran);
 
 
-io.on('connection', (socket) => {
-    // socket.roll;
-    const InsRoll = new roll();
-    socket.username;
-    socket.auth;
-    socket.UserID;
-    console.log('user connected');
-    socket.on('update', async (data) => {
-        try {
-            // console.log(data.data.value);
-            const Updatedata = {
-                [data.data.id]: data.data.value
-            };
-            await Config.update(Updatedata, {
-                where: {
-                    userId: socket.UserID
-                }
-            });
-        } catch (err) {
-            console.error(err);
-            socket.emit('GAKBERES', 'Datamu Gagal di Update');
-        }
-    });
-
-    setTimeout(() => {
-        if (!socket.auth) {
-            socket.disconnect('Unauthorized');
-        }
-    }, 1000);
-    socket.on('getConfig', () => {
-        User.findOne({
-            where: {
-                username: 'Tionico11xa@gmail.com'
-            }
-        }).then(async (hasil) => {
-            const ConfigResult = await Config.findOne({
-                where: {
-                    userId: hasil.id
-                }
-            });
-            const plain = ConfigResult.get({ plain: true });
-            // tambahkan pada plain token 
-            plain.token = hasil.token;
-            socket.emit('config', ConfigResult);
-            socket.username = hasil.username;
-            socket.UserID = hasil.id;
-            socket.auth = true;
-            InsRoll.init(hasil.username, hasil.password, plain);
-            await InsRoll.login();
-            await InsRoll.getInfoSet();
-            // console.log(InsRoll.token);
-            await User.update({
-                token: InsRoll.token
-            }, {
-                where: {
-                    username: hasil.username
-                }
-            });
-        }).catch((err) => {
-            socket.emit('GAKBERES', err);
-            console.log(err);
-            socket.disconnect('Unauthorized');
-        });
-
-    });
-    socket.on('getBalance', async () => {
-        try {
-            InsRoll.balance((balance) => {
-                socket.emit('balance', balance);
-            });
-
-        } catch (err) {
-            console.error(err);
-            socket.emit('GAKBERES', 'Gagal mendapatkan saldo');
-        }
-    });
-
-    socket.on('play', () => {
-        InsRoll.main((result) => {
-            console.log(result);
-            socket.emit('roll', result);
-        });
-        console.log('sudah main game ')
-        InsRoll.MainGame();
-
-    });
-
-    socket.on('disconnect', () => {
-        InsRoll.stop();
-        console.log('user disconnected');
-    });
-}
-);
 
 
+// Logger
 const PORT = process.env.PORT || 4000;
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
+});
+
+sessionStore.onReady().then(() => {
+    // MySQL session store ready for use.
+    console.log('MySQLStore ready');
+}).catch(error => {
+    // Something went wrong.
+    console.error(error);
 });
