@@ -1,0 +1,62 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Sign Up Page</title>
+        <link rel="stylesheet" href="/assets/css/login.css" />
+    </head>
+    <body>
+
+        <h1>Sign Up</h1>
+
+        <form id="signup-form" action="/api/signup" method="post">
+            <input placeholder="Username" name="username" type="text" />
+            <br />
+            <input placeholder="Email" name="email" type="email" />
+            <br />
+            <input placeholder="Password" name="password" type="password" />
+            <br />
+            <input placeholder="Refferal Code" name="referral" type="text" />
+            <br />
+            <input class="sub" value="Signup" type="submit" />
+        </form>
+
+        <a href="/user/login">Go back to login page</a>
+
+    </body>
+    <script>
+        const form = document.getElementById('signup-form');
+        form.addEventListener('submit', (event) => {
+            event.preventDefault(); // mencegah pengiriman form secara default
+
+            // mengambil nilai dari setiap input
+            const username = document.getElementsByName('username')[0].value;
+            const email = document.getElementsByName('email')[0].value;
+            const password = document.getElementsByName('password')[0].value;
+            const referral = document.getElementsByName('referral')[0].value;
+
+            fetch('/api/signup', {
+                method: 'POST',
+                body: JSON.stringify({ username, email, password, referral }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data =>{
+                const pesan = data.message;
+                if(pesan == "Signup Success"){
+                    window.location.href = "/user/login";
+                }else{
+                    alert(pesan);
+                }
+            })
+            .catch(error => console.error(error));
+        });
+    </script>
+    
+</script>
+
+
+</html>

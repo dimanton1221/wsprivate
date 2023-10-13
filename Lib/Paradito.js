@@ -222,15 +222,15 @@ module.exports = { Paradito, a_to_b, m_to_o, to_satoshi, limit };
 
 // gunakan paradito
 
-// async function login() {
-//     try {
-//         // const pa = new Paradito();
-//         const pa = new Paradito("0c6b51d7af02e92dd0f9b5ba9f0488620dea17e8995264d3e3701cfa3503967b");
+async function login() {
+    try {
+        // const pa = new Paradito();
+        const pa = new Paradito();
+        await pa.register('anjingkokgitu','137263','kormankok@maild.com',"082513574652")
+    } catch (error) {
 
-//     } catch (error) {
-
-//     }
-// }
+    }
+}
 
 
-// login();
+login();

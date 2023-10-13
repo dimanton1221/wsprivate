@@ -4,6 +4,7 @@ const http = require('http');
 const socketIo = require('socket.io');
 const session = require('express-session');
 const { sessionStore } = require('./config/sesi');
+const path = require("path")
 
 // config
 require('./config/dotenv');
@@ -14,7 +15,7 @@ const server = http.createServer(app);
 const io = socketIo(server);
 // add middlewares
 const { aliran } = require('./Middlewares/Socket');
-const { CheckAuth2 } = require('./Middlewares/AuthCheck');
+const { CheckAuth2, CheckAuth } = require('./Middlewares/AuthCheck');
 
 const sessionMiddleware = session({
     secret: 'rahasia',
@@ -28,15 +29,16 @@ app.use(express.json());
 app.use(sessionMiddleware);
 io.engine.use(sessionMiddleware);
 app.set('view engine', 'hbs');
-
+// app.set('views', path.join(__dirname, 'views'));
 
 // add Routers
-const test = require('./Routers/test');
-const LoginTest = require('./Routers/testLogin');
+const apiLogin = require('./Routers/ApiLogin');
+const LoginTest = require('./Routers/Users');
 
-
-
-app.use("/api", test);
+// asset static
+app.use("/user", LoginTest);
+app.use("/assets", express.static('static'));
+app.use("/api", apiLogin);
 app.use('/test', express.static('test'));
 // app.use("/main", express.static('public'));
 // io.use(CheckAuth2);

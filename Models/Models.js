@@ -7,7 +7,6 @@ const SyncDb = async () => {
     try {
 
 
-
         // await sequelize.sync({ force: true });
         // await user.create({
         //     username: 'Tionico11xa@gmail.com',
@@ -29,4 +28,4 @@ const SyncDb = async () => {
 }
 
 
-// SyncDb();
+SyncDb();
