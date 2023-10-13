@@ -24,6 +24,7 @@ class Paradito {
         if (this.token !== undefined) {
             data.token = this.token;
         }
+        // console.log(data)
         return await axios({
             method: method,
             url: this.baseUrl + path,
@@ -48,19 +49,20 @@ class Paradito {
         }
     }
 
-    async register(username, password, email, phone) {
+    async register(username, password) {
         const data = {
-            user: username,
+            user_name: username,
+            user_email: username + "@gmail.com",
             password: password,
-            email: email,
-            phone: phone,
+            agreement: 1,
+            referrer: ""
         };
         const { data: resultData } = await this.Send("api/register", data);
 
         if (resultData.success !== true) {
-            console.log(resultData);
+            return resultData.message;
         } else {
-            console.log(resultData.message);
+            return resultData;
         }
     }
 
@@ -130,12 +132,13 @@ class Paradito {
      * @returns {Promise<Object>} - Objek yang berisi data hasil pengiriman koin.
      */
     async SendBalance(coin, user_name, amount) {
+        amount = amount.toString();
         const data = {
             coin: coin,
             user_name: user_name,
             amount: amount,
         };
-        const { data: resultData } = await this.Send("withdraw/send", data);
+        const { data: resultData } = await this.Send("transfer/send-transfer", data);
         return resultData;
     }
 
@@ -160,10 +163,15 @@ class Paradito {
     // console.log();
 
     async inVault(amount, type) {
+        // jadikan amount jadi string 
+        amount = amount.toString();
         const data = {
             amount: amount,
             coin: type,
         };
+
+
+
         const { data: resultData } = await this.Send("vault/transfer-in", data);
         return resultData;
     }
@@ -183,6 +191,7 @@ class Paradito {
     }
 
     async outVault(amount, type, password) {
+        amount = amount.toString();
         const data = {
             amount: amount,
             coin: type,
@@ -196,6 +205,17 @@ class Paradito {
     }
 
 
+    async wd(coin, amount, address) {
+        amount = amount.toString();
+        const data = {
+            "coin": coin,
+            "method": "DIRECT",
+            "amount": amount,
+            "address": address,
+        };
+        const { data: resultData } = await this.Send("withdraw/place-withdrawal", data);
+        return resultData.success;
+    }
 
 }
 
@@ -222,15 +242,20 @@ module.exports = { Paradito, a_to_b, m_to_o, to_satoshi, limit };
 
 // gunakan paradito
 
-async function login() {
-    try {
-        // const pa = new Paradito();
-        const pa = new Paradito();
-        await pa.register('anjingkokgitu','137263','kormankok@maild.com',"082513574652")
-    } catch (error) {
+// async function login() {
+//     try {
+//         // const pa = new Paradito();
+//         const pa = new Paradito();        // console.log(hasil);
+//         await pa.login("Tionico11xa@gmail.com", 'Agita07@SuiteProfitBot'); // kalau login ada @gmailnya
+//         const a = await pa.SendBalance("BTT", "arimuzakki", 0.1000);
+//         console.log(a);
+//         // const a = await pa.inVault(10.00000000, "BTT");
+//         // const a = await pa.outVault(10.00000000, "BTT", "Agita07@SuiteProfitBot");
+//         // console.log(a)
+//     } catch (error) {
 
-    }
-}
+//     }
+// }
 
 
-login();
+// login();

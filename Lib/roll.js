@@ -61,7 +61,7 @@ class NgeGame extends Paradito {
             this.ch2 = Number(this.config.ch2);
             this.boom = Number(this.config.boom);
             this.shot = Number(this.config.shot);
-            this.delay = Number(this.config.delay+2) * 1000;
+            this.delay = Number(this.config.delay + 2) * 1000;
             this.beta = Number(this.config.beta);
             this.input_global = Number(this.config.input_global);
             this.input_season = Number(this.config.input_season);
@@ -118,7 +118,8 @@ class NgeGame extends Paradito {
 
             if (this.profit > 0) {
                 this.rebet = to_satoshi(this.profit * this.totalrebet / 100);
-                this.vault = await super.inVault(this.rebet, this.coin);
+                const apa = this.vault = await super.inVault(this.rebet, this.coin);
+                console.log(apa)
                 this.profit_min = to_satoshi(this.profit - this.rebet);
                 console.log(`real= ${this.profit} || Potongan ${this.profit_min}`);
             } else {
@@ -161,16 +162,16 @@ class NgeGame extends Paradito {
 
 
 
-            if (this.profit > 0){
-                this.statroll =  this.skors_win; // warna hijau
-            }else{
+            if (this.profit > 0) {
+                this.statroll = this.skors_win; // warna hijau
+            } else {
                 this.statroll = this.skors_lose; // warna
             }
 
 
 
 
-            
+
             this.roll++;
             console.log(`Bet = ${to_satoshi(this.bet_awal)} || status ${status} || Chance = ${this.chance} || Roll ${this.roll} || rebet = ${this.rebet} || Profit = ${this.profit_min} || Balance ${balance} || Season = ${this.profit_season} || Global = ${this.profit_global}`);
             this.callbackMain({
@@ -187,7 +188,7 @@ class NgeGame extends Paradito {
                 this.bet_awal = (this.bet_awal * (100 + this.martiwin)) / 100;
             }
 
-            if (this.profit > 0){
+            if (this.profit > 0) {
                 this.ws = 1;
                 this.skors_win = this.skors_win + 1;
                 if (this.skors_lose > this.lose_save) {
@@ -198,7 +199,7 @@ class NgeGame extends Paradito {
                 if (this.reset_if_lose != 0) {
                     this.reset_if_lose = this.reset_if_lose - 1;
                 }
-            } else{
+            } else {
                 this.wl = 1;
                 this.skors_lose = this.skors_lose + 1;
                 if (this.skors_win > this.win_save) {
@@ -210,18 +211,18 @@ class NgeGame extends Paradito {
                     this.reset_if_win = this.reset_if_win - 1;
                 }
             }
-            
-            if (this.input_wl == 0){
+
+            if (this.input_wl == 0) {
                 this.input_wl = this.input_wl - 1;
             }
-            
-            
-            if (this.input_ws == 0){
+
+
+            if (this.input_ws == 0) {
                 this.input_ws = this.input_ws - 1;
             }
-            
 
-            if (this.reset_if_win == this.input_ws){
+
+            if (this.reset_if_win == this.input_ws) {
                 this.reset_if_win = 0;
                 this.bet_awal = this.input;
                 this.pg = 0;
@@ -229,7 +230,7 @@ class NgeGame extends Paradito {
                 this.p = this.ip;
                 this.lb = 0;
             }
-            if (this.reset_if_lose == this.input_wl){
+            if (this.reset_if_lose == this.input_wl) {
                 this.bet_awal = this.input;
                 this.reset_if_lose = 0;
             }
@@ -244,7 +245,7 @@ class NgeGame extends Paradito {
                 this.p = this.ip;
             }
             if (this.iflos != 0) {
-                if (this.iflos == this.skors_lose ) {
+                if (this.iflos == this.skors_lose) {
                     this.bet_awal = this.iflosboom;
                 } else {
                     this.bet_awal = this.bet_awal;
