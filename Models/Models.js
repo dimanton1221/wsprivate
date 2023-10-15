@@ -7,11 +7,12 @@ const SyncDb = async () => {
     try {
 
 
-        // await sequelize.sync({ force: true });
-        // await user.create({
-        //     username: 'Tionico11xa@gmail.com',
-        //     password: 'Agita07@SuiteProfitBot',
-        // });
+        await sequelize.sync({ force: true });
+        await user.create({
+            username: 'Tionico11xa@gmail.com',
+            email: 'Tionico11xa@gmail.com',
+            password: 'Agita07@SuiteProfitBot',
+        });
 
         // const hasil = await user.findOne({
         //     where: {
@@ -28,4 +29,4 @@ const SyncDb = async () => {
 }
 
 
-SyncDb();
+// SyncDb();

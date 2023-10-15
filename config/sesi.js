@@ -4,7 +4,7 @@ const options = {
     host: 'localhost',
     port: 3306,
     user: 'root',
-    password: '',
+    password: '11',
     database: 'paradito'
 };
 const sessionStore = new MySQLStore(options);

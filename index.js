@@ -15,7 +15,7 @@ const server = http.createServer(app);
 const io = socketIo(server);
 // add middlewares
 const { aliran } = require('./Middlewares/Socket');
-const { CheckAuth2, CheckAuth } = require('./Middlewares/AuthCheck');
+// const { CheckAuth2, CheckAuth } = require('./Middlewares/AuthCheck');
 
 const sessionMiddleware = session({
     secret: 'rahasia',
@@ -40,9 +40,9 @@ app.use("/user", LoginTest);
 app.use("/assets", express.static('static'));
 app.use("/api", apiLogin);
 app.use('/test', express.static('test'));
-// app.use("/main", express.static('public'));
+app.use("/main", express.static('public'));
 // io.use(CheckAuth2);
-// io.on('connection', aliran);
+io.on('connection', aliran);
 
 
 
