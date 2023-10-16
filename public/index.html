@@ -437,7 +437,7 @@
       });
 
       socket.on('roll', (data) => {
-        AddDataTable(data.trade, data.profit, 1);
+        AddDataTable(data.trade, data.profit, data.status);
       })
 
     });
