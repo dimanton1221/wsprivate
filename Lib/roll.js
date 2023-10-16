@@ -179,7 +179,8 @@ class NgeGame extends Paradito {
                 profit: this.profit_min,
                 win: this.win_save,
                 lose: this.lose_save,
-                global: this.profit_global
+                global: this.profit_global,
+                status: status == 'Win' ? 1 : 0,
             })
 
             if (status == 'Lose') {
