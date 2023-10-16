@@ -35,6 +35,7 @@ class NgeGame extends Paradito {
         this.game;
         this.token = config.token;
         super.token = config.token;
+        this.stopwin = 0;
     }
 
     async getInfoSet() {
@@ -158,8 +159,11 @@ class NgeGame extends Paradito {
             // }
 
 
-
-
+            if (this.stopwin == 1) {
+                if (status == 'Win') {
+                    this.stop();
+                }
+            }
 
 
             if (this.profit > 0) {
@@ -309,6 +313,10 @@ class NgeGame extends Paradito {
             const balance = await super.getBalance(this.coin);
             callback(balance);
         }, 1000); // setting ae sak enak e 
+    }
+
+    stopOnWin() {
+        this.stopwin = 1;
     }
 
     main(callback) {

@@ -91,6 +91,11 @@ const aliran = async (socket) => {
 
     });
 
+
+    socket.on('stopOnWin', () => {
+        InsRoll.stopOnWin();
+    });
+
     socket.on('disconnect', () => {
         InsRoll.stop();
         console.log('user disconnected');
