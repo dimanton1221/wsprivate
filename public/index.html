@@ -392,8 +392,21 @@
 
 
     startBtn.addEventListener('click', (event) => {
-      console.log('PLAY');
-      socket.emit('play');
+      // jika start btn value dari btn jadi stop
+      if (startBtn.textContent === 'START') {
+        startBtn.textContent = 'STOP';
+        startBtn.classList.remove('btn-secondary');
+        startBtn.classList.add('btn-danger');
+        console.log('PLAY');
+        socket.emit('play');
+      } else {
+        startBtn.textContent = 'START';
+        startBtn.classList.remove('btn-danger');
+        startBtn.classList.add('btn-secondary');
+        console.log('stop');
+        socket.emit('stop');
+      }
+
     });
 
     socket.on("connect", () => {
