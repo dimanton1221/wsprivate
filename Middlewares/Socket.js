@@ -32,9 +32,11 @@ const aliran = async (socket) => {
         }
     }, 1000);
     socket.on('getConfig', () => {
+        // get sesi from socket
+        const userId = socket.request.session.userId;
         User.findOne({
             where: {
-                username: 'Tionico11xa@gmail.com'
+                id: userId
             }
         }).then(async (hasil) => {
             const ConfigResult = await Config.findOne({
